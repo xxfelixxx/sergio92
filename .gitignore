@@ -1,0 +1,9 @@
+*.py~
+*.pyc
+*.sh~
+*~
+*#
+*.swp
+*foo*
+*.log
+bin/t/.test*
