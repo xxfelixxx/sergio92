@@ -1,3 +1,8 @@
+### Some useful git tips
+###
+### I recommend reading Scott Chacon's book: https://git-scm.com/book/en/v2
+###
+
 # Create a new repo
 git init foo
 
@@ -9,6 +14,7 @@ A file tree with a special .git directory at the top which stores
 commit and file data info, allowing you go see all changes from the beginning.
 
 # Typical workflow
+-------------------
 0. Fetch the latest changes
    'git fetch'         : grab all of the latest changes
    'git pull --rebase' : put any recent changes ontop of remote changes
@@ -39,3 +45,28 @@ commit and file data info, allowing you go see all changes from the beginning.
    'git push origin master' : git push means to push the changes
                             : origin is local (default) name of the repo
                             : master is the (default) name of the branch
+
+
+# Working with others
+----------------------
+0. Add their repo as a remote
+   'git remote add felix https://github.com/xxfelixxx/sergio92' : felix is local name of remote
+
+1. Fetch the lastest from the remote 'felix'
+   'git fetch felix'
+
+2. Merge the changes
+   'git merge felix/master' : merge changes from xxfelixxx version into mine
+
+3. Fix any conficts (this may happen)
+   git will tell you if you have any merge conflicts, if you do:
+
+      a. Don't Panic!
+      b. The files with conflicts are marked with <<<<<<<, ======, and >>>>> blocks
+      c. Edit the files, decide which changes are right and remove all of those <<<,===,>>> lines
+      d. 'git add conflicted_file'
+      e. Repeat for any other files, there can be many, it happens...see rule a)
+      f. 'git commit'
+
+4. Publish changes to github
+   'git push origin master'
