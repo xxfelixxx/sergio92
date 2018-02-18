@@ -70,3 +70,17 @@ commit and file data info, allowing you go see all changes from the beginning.
 
 4. Publish changes to github
    'git push origin master'
+
+
+# Dealing with partial work, but want to pull latest changes
+-------------------------------------------------------------
+
+0. Git will not let you merge / pull if you have modified some files
+
+1. 'git stash save' : Save all of your work into a temporary stash
+
+2. 'git status' : Will show a clean, i.e. no changes state
+
+3. 'git merge ...' : Apply whatever changes you want
+
+4. 'git stash pop' : Reapply your local changes ontop of the newly merged files
