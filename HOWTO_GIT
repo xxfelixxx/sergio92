@@ -1,0 +1,41 @@
+# Create a new repo
+git init foo
+
+# Clone an existing repo
+git clone https://github.com/srdjanma/sergio92
+
+# What is a repo?
+A file tree with a special .git directory at the top which stores
+commit and file data info, allowing you go see all changes from the beginning.
+
+# Typical workflow
+0. Fetch the latest changes
+   'git fetch'         : grab all of the latest changes
+   'git pull --rebase' : put any recent changes ontop of remote changes
+
+1. Edit a file (useful increment of work, smaller better)
+   emacs/vim/gedit lib/func.c
+
+2. Review changes
+   'git status' : list files which were modified
+   'git diff'   : show changes as diffs
+
+3. Add changes to git index (will ask you about whether to include each chunk of work)
+   'git add -p' : add to index, -p means patch
+
+4. Changes are now staged
+   'git diff'          : will not show anything now...
+   'git diff --cached' : will show the changes about to be committed.
+
+5. Commit changes
+   "git commit -m 'Modified lib/func.c, added frobnicate() method.'"
+
+6. See changes in history
+   'git log'        : Show author/date/commit ids
+   'git log -p'     : Show commits with changes
+   'git log --stat' : Show lines changed per file per commit
+
+7. Publish changes to github
+   'git push origin master' : git push means to push the changes
+                            : origin is local (default) name of the repo
+                            : master is the (default) name of the branch

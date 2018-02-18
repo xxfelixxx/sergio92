@@ -1,0 +1,16 @@
+# Navigation on command line
+
+Ctrl-a : go to beginning of line
+Ctrl-e : go to end of line
+Ctrl-f : go forward one char
+Ctrl-b : go back one char
+Ctrl-k : kill (delete) the rest of line
+Ctrl-y : yank (paste) the last killed line
+
+# Search command line history
+Ctrl-r cmd : Seaches the command history for 'cmd'
+             multiple Ctrl-r will go cycle through history
+
+# For a tutorial on navigating using these emacs shortcuts...
+emacs
+Ctrl-h t
