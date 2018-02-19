@@ -35,14 +35,14 @@ my @test_files = (
 );
 for my $file_data ( @test_files ) {
     my $file = $file_data->{name};
+    my $src = "$Bin/$test_data/$file";
     note("Copying $file to $test_path");
-    copy( "$test_data/$file", $test_path )
-        or die "Unable to copy $test_data/$file to $test_path";
+    copy( "$src", $test_path )
+        or die "Unable to copy $src to $test_path";
     note("TODO: Validate sha1");
 }
 
 pass("We have the test files and scripts all in $test_path.");
-
 
 # $^X is a perl variable for the path of 'perl', see: perldoc perlvar
 my $cmd = "cd $test_path && $^X $script_name";
@@ -53,7 +53,7 @@ pass("Script ran ok");
 
 # Now we check the results
 
-opendir my $dir, $expected
+opendir my $dir, "$Bin/$expected"
     or die "Unable to opendir $expected : $!";
 
 # Ignore any possible dot files, or ~ backup files
