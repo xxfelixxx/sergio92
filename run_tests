@@ -1,0 +1,48 @@
+#!/bin/bash
+DIR=$( dirname "$BASH_SOURCE" )
+# See .bash_functions for the definitions of 'header', 'info, ...
+source $DIR/.bash_functions
+
+header "Searching for Perl test files"
+PERL_TEST_FILES=$( find $DIR/               | # Find all things
+                        grep '/t/'          | # that live in a testing directory /t/
+                        grep -v '~'         | # that do not end in a tilda (~)
+                        xargs file -F ""    | # run the 'file' command on each one
+                        grep 'Perl script'  | # keep only those which are of type 'Perl script'
+                        grep -v '\.test'    | # and ignore any that have a .test path
+                        cut -f1 -d' '       | # keep only the filename
+                        sort                | # sort the result
+                        xargs readlink -f   ) # convert each one to absolute path
+
+COUNT=$( echo "$PERL_TEST_FILES" | wc -l )
+info "Found $COUNT test files"
+
+header "Searhing for Prove"
+TEST_FAILURES=0
+if which prove >/dev/null 2>&1; then
+    info "Found it!"
+    FILES=$( echo "$PERL_TEST_FILES" | tr '\n' ' ' ) # Replace newline with space
+    CMD="prove -v $FILES"
+    info "Running: $CMD"
+    OUTPUT=$( $CMD 2>&1 )                     # 2>&1 means combine regular and error output
+    TEST_FAILURES=$(( $TEST_FAILURES + $? ))  # $? is the exit code, 0 = success
+    echo "$OUTPUT"
+else
+    info "Not found, you may wish to install it..."
+    TEST_FAILURES=0
+    for FILE in $PERL_TEST_FILES; do
+        CMD="perl $FILE"
+        info "Running: $CMD"
+        OUTPUT=$( $CMD 2>&1 )                     # 2>&1 means combine regular and error output
+        TEST_FAILURES=$(( $TEST_FAILURES + $? ))  # $? is the exit code, 0 = success
+        echo "$OUTPUT"
+    done
+fi    
+
+if [[ "$TEST_FAILURES" -eq "0" ]]; then
+    success
+else
+    failure
+fi
+
+exit $TEST_FAILURES
