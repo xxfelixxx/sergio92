@@ -52,19 +52,20 @@ note("Executing the script on the test directory");
 pass("Script ran ok");
 
 # Now we check the results
-
-opendir my $dir, "$Bin/$expected"
+my $expected_dir = "$Bin/$expected";
+opendir my $dir, $expected_dir
     or die "Unable to opendir $expected : $!";
 
 # Ignore any possible dot files, or ~ backup files
-my @expected_files = grep { !/~$/ && ! /^\./ && -f "$expected/$_" } readdir($dir);
+my @expected_files = grep { !/~$/ && ! /^\./ && -f "$expected_dir/$_" } readdir($dir);
 for my $file (@expected_files) {
-    my $sha1 = sha1("$expected/$file");
+    my $sha1 = sha1("$expected_dir/$file");
     my $tfile = "$test_path/$file";
     ok( -f $tfile, "Found $tfile" );
     my $tfile_sha1 = sha1($tfile);
-    ok($sha1 == $tfile_sha1, "$file has correct checksum")
-        or show_diff( "$expected/$file", $tfile );
+    note("Checking $file");
+    ok($sha1 == $tfile_sha1, "has correct checksum")
+        or show_diff( "$expected_dir/$file", $tfile );
 }
 
 my $builder = Test::More->builder();
