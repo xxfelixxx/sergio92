@@ -1,3 +1,77 @@
+# ok, if u dont remember let me copy the email I have sent u yesterday, we will need to change I think first two subroutines and before subroutines code..one sec
+# you need to work on explaining things with fewer words....# yeas I know my exmplanations are wierd confusing and bad
+# Do you have a teddy bear?
+# ahah no, why?
+# at MIT, in the computer lab, they setup a teddy bear, just outside the
+# office of the support staff.  If someone (a student) has a question,
+# they are to ask the teddy bear first.  The act of explaining it
+# to anyone (even a teddy bear) served to get people clarify what they
+# were trying to figure out, so if they didn't figure out the problem
+# while talking to the teddy bear ( which would often happen ), they 
+# could better explain it to a real person, since they had some practice.
+#
+#Hm, very interesting..honestly it makes sence to some extent.
+# It is very easy for someone to answer questions which are very specific
+# and generally have an answer, but to ask such questions, you have to
+# cut it back to just the essential thing (it is a skill, it takes practice)
+# it has nothing to do with your level of english, its more a thought
+# process thing
+
+# 1 Lig_atoms to all protein atoms (opposite logic we did)
+# # really? Yeah I guess we calculated distances between protein atom1 and all lif_atoms..then prot_atom2 and all lig_atoms..etc
+# #ok, lets do that first.
+
+# So.... if 0-2 move it to 0-2 folder and braek out of the script (forget about the details)
+#        elsif 2-4 (only once) break out of the script and remember something
+
+# 
+
+# Hey Felix,
+
+# I just realized that the thing with percentage we didn't assigne
+# well because I confused it a bit more and thats why it wasnt giving
+# me correct result..
+
+# The thing is that we calculated percentage of the result of each
+# distance calculation..and we should do like this (if we have 10
+# ligand atoms):
+
+# 1st CALCULATION > Calculate ligand_atom1 with all protein_atoms> if
+# it appears only once that distance is between 0-2 brake out of the
+# script and move it to the folder..if it appears only once that dist
+# is between 2-4 then break out of the script and memorize it. 
+
+# 2nd CALCULATION > Calculate ligand_atom2 with all protein_atoms> if it
+# appears only once that distance is between 0-2 brake out of the
+# script and move it to the folder..if it appears only once that dist
+# is between 2-4 then break out of the script and memorize it.  .  .
+# .
+
+# 10th CALCULATION > Calculate ligand_atom10 with all protein_atoms>
+# if it appears only once that distance is between 0-2 brake out of
+# the script and move it to the folder..if it appears only once that
+# dist is between 2-4 then break out of the script and memorize it.
+
+# And here..if 70 percent of number of ligand atoms (there is 10
+# ligand atoms, so 7) had once result between 2-4 (like above when we
+# break out of the script) then move it to 2-4 folder. Then we dont
+# specifically need folders 4-5 and 5-6.
+
+# This will make script work much faster if we break out of the loop
+# like this.
+
+# I will make changes to the script during the day. I guess I have to
+# make some changes in first two subroutines (process_result and
+# decide_which_text_files_should_move).
+
+# Will u have one hour later so we can go trough it together?
+
+# Best, Srdjan
+
+
+
+
+
 #!/usr/bin/env perl
 
 #------ perl pragmas
@@ -64,14 +138,20 @@ for my $txt_file ( glob '*txt' ) {
 }
 die "No text files found!" unless keys %text_data;
 
-# For each PDB file, calculate distances between each ATOM and all HEMATM rows
+# For each PDB file, store the ATOMs
 my %atoms;
 for my $pdb_file ( glob '*pdb' ) {
-    $atoms{ $pdb_file } = process_pdb($pdb_file);
+    $atoms{$pdb_file} = parse_pdb($pdb_file);
 }
 die "No PDB files found!" unless keys %atoms;
 
-process_results( %atoms );
+for my $txt_file ( sort keys %text_data ) {
+    for my $pdb ( sort keys %atoms ) {
+        calculate_ligand_distances($txt_file, $pdb);
+    }
+}
+
+#process_results( %atoms );
 
 debug("FINISH\n");
 exit 0;
@@ -80,123 +160,88 @@ exit 0;
 # The idea is to break up your program into smaller manageable (testable hopefully)
 # chunks that you can more easily reason about...
 
-# process_results
-# Input: %atoms - a hash which has keys that are the pdb filenames
-#                 with values the data results of calling process_pdb() on that file
-# Output: None
-#
-# Side-Effects: Modifies %distances_by_text_file
-sub process_results {
-    my (%atoms) = @_;
+sub calculate_ligand_distances {
+    my ($txt_file,$pdb_file) = @_;
+    my ($count_2_4,$count_4_5,$count_5_6) = (0,0,0);
+    my $ligand_rows = scalar @{ $text_data{$txt_file }};
+  LIGAND_ROW:
+    for my $ligand ( @{ $text_data{$txt_file} } ) {
+        my @distances;
 
-    # Go through the results and group them by Text File
-    for my $pdb_file ( sort keys %atoms ) {
-        my %distances_by_text_file;
-        for my $atom ( @{ $atoms{ $pdb_file } } ) {
-            my $atom_coord = $atom->{atom_coord};
-            my $distances = $atom->{distances};
-            debug("--> ATOM [ " . join(', ', @$atom_coord ) . " ]\n");
-            for my $dist ( @$distances ) {
-                # This is the text file
-                my $txt_file = $dist->{text_file};
-                my $dd = $dist->{distances};
-
-                # This array will store all of the distances between the ATOM and the text file.
-                my @ligand_distances;
-                for my $ddd ( @{ $dd } ) {
-                    push @ligand_distances, $ddd->{distance};
-                    my $lig_coord = join(', ', @{$ddd->{ligand_coord}});
-                    my $atom_lig_distance = sprintf("%0.1f", $ddd->{distance});
-                    debug("----> LIGAND $txt_file : d = $atom_lig_distance [ $lig_coord ]\n");
-                }
-                push @{ $distances_by_text_file{ $txt_file } }, @ligand_distances;
-            }
+        for my $atom_coord ( @{ $atoms{$pdb_file} } ) {
+            my $ligand_coord = $ligand->{ligand_coord};
+            my $dist = distance( $atom_coord, $ligand_coord );
+            push @distances, $dist;
         }
-
-        decide_which_text_files_should_move( $pdb_file, %distances_by_text_file );
-    }
-}
-
-sub decide_which_text_files_should_move {
-    my ( $pdb_file, %distances_by_text_file ) = @_;
-
-    for my $txt_file ( sort keys %distances_by_text_file ) {
-        my @distances = @{ $distances_by_text_file{ $txt_file } };  
 
         my @less_than_2 = find_between( 0, 2, \@distances );
         if ( scalar @less_than_2 ) {
-            move_file( $txt_file,
+            move_file( $pdb_file, 
                        scalar @less_than_2 == 1 ? DIR_COV : DIR_2_4 );
-            next; # next text file
+            next LIGAND_ROW;
         }
 
-        if ( percent_between( $percent, 2, 4, \@distances ) ) {
-            # I wanted to ask u here something..
-            # At the end..within each subdirectory I will have few directories and in some of them
-            # ligand txt files will be stored..since I will only have to make use of those ligand
-            # files that have distance between 2-4 I would have to extract them somehow..
-            # In the final step of the whole dataset is I have to make a table..I will have to use
-            # Orignial pdb files and to refer in the table only to those ligands taht are in 2-4
-            # directory..
-            # So I would have to say something like..if in each subdirectory..it happens that
-            # some of the ligand txt files is beeing moved to 2-4 subdirectory, then move pdb file
-            # as well..so at the end I can somehow from all subdirectories grep these pdb files
-            # and maybe somehow make a list of filenames (pdbfile_name#ligand_name) or something
-            # like that..At the end from all these pdb files..I am extracting only few lines from
-            # from each of them (by using grep) and then making a table looking content..
-            # The thing is that within each pdb file under lines that start with ^HETATM there are
-            # all ligand names..but I would only have to take these names (files) that are in
-            # in the 2-4 subdirectory and in the table only to refer to them..have to think
-            #
-            #So you want to summarize at the end?
-            # Here on this step I can just include that if some of the ligand files are moved
-            # to 2-4 subsubdirectory then to move orignial pdb file to that directory as well..
-            # Then later..by using some other script I will have to think how to grep only those
-            # pdb files that are in the 2-4 (sub sub)directory and somehow ..dont know how to
-            # link them only with those ligand (txt) filenames that are in the same directory..
-            # So at the end by using some other script to end up with a table that under
-            # HETATM lines wont have all ligand names but only those that are found together
-            # with pdb file in this 2-4 subdirectory..
-            #
-            # So , now if only one or more ligand txt files are moved to this directory, that will
-            # directly move pdb file into that directory as well?
-
-            # Need to verify we have a proper path here...but this would work.
-            # Cannot verify without running it....to run it need some test files...
-            # we can use the output of the previous script..so the output of the previous script
-            # is input to this one :)
-            # just over there we had 2 pdb files and more ligand files..maybe we can run
-            # prevvious script just on one pdb file and run this script on the same pdb file
-            # no thats fine i think..
-
-            if ( -f $pdb_file ) {
-                print "Moving PDB file $pdb_file\n";
-                move_file( $pdb_file, DIR_2_4 );
-            }
-            move_file( $txt_file, DIR_2_4 );
-            next;
+        if ( any_between( 2, 4, \@distances ) ) {
+            $count_2_4++;
         }
 
-        if ( percent_between( $percent, 4, 5, \@distances ) ) {
-            move_file( $txt_file, DIR_4_5 );
-            next;
+        if ( any_between( 4, 5, \@distances ) ) {
+            $count_4_5++;
         }
 
-        if ( percent_between( $percent, 5, 6, \@distances ) ) {
-            move_file( $txt_file, DIR_5_6 );
-            next;
+        if ( any_between( 5, 6, \@distances ) ) {
+            $count_5_6++;
         }
-
-        # Fallback case
-        print "Boo: no home for $txt_file....leaving it here\n";
     }
+
+    my $cutoff = $percent / 100;
+    my ($p2_4, $p4_5, $p5_6) = map {
+        ($_ / $ligand_rows) 
+    } ( $count_2_4, $count_4_5, $count_5_6 );
+
+    print "Percent for 2_4 is " . int( 100 * $p2_4 ) . "\n";
+    print "Percent for 4_5 is " . int( 100 * $p4_5 ) . "\n";
+    print "Percent for 5_6 is " . int( 100 * $p5_6 ) . "\n";
+    
+    my $dest = '';
+    if ($p2_4 > $cutoff) {
+        $dest = DIR_2_4;
+    } elsif ($p4_5) {
+        $dest = DIR_4_5;
+    } elsif ($p5_6) {
+        $dest = DIR_5_6;
+    } else {
+        # wait..maybe we shouldnt go with 5-6 and 4-5 because u see 
+        # From the previous example all were above 70 percent so 
+        # all of them cant be moved so maybe just to comment on it 
+        # and one more simple thing..is if there are more txt files (mostlythe case)
+        # and it works first with one of them..and it moved pdb file as well..then the 
+        # calc within other txt files and pdb (moved) file wont be possible..so
+        # maybe just to copy it and then I will do sort -u in the 2-4 direcotry if there
+        # are more identical pdb files..what do u say?
+        # you have everything in memory, you can move things, it won't matter.
+        # I think I need to stop...perhaps you could continue.
+        # we are almost finished..can we try to run this on our examples?
+        # I rhink we ddid 99 percent?
+    }
+    if ($dest) {
+        move_file( $pdb_file, $dest );
+        move_file( $txt_file, $dest );
+    }
+
 }
 
-# For example this seems like it can be first one we made
-# Here we are extracting atom coordinates from pdb file
+sub any_between {
+    my ($min, $max, $array_ref) = @_;
+    my $n = scalar @$array_ref;
+    return 0 unless $n > 0;
 
-sub process_pdb {
-    # Here we are reading each pdb file to its end
+    my @match = find_between( $min, $max, $array_ref );
+    my $n_match = scalar @match;
+    return $n_match;
+}
+
+sub parse_pdb {
     my ($pdb) = @_;
     debug("Working on $pdb...\n");
     open my $fh, "<$pdb" or die "Unable to open '$pdb' : $!";
@@ -204,40 +249,13 @@ sub process_pdb {
     while(my $line = <$fh>) {
         chomp($line);
         if ( $line =~ /^ATOM / ) {
-            # Ok next thing we will do is go to the parse_row subroutine and then come back here
-            # yes...real code looks like this, it jumps around alot
-            # Atom coordinates are beeing extracted
             my $atom_row = parse_row($line);
-            # Here we are calculating distances between $ atom_row and ligands or?
-            # 1 atom row vs All ligands
-            my $distances = calculate_distances( $atom_row );
-            push @atoms, { atom_coord => $atom_row, distances => $distances };
+            push @atoms, $atom_row;
         }
     }
     return \@atoms;
 }
 
-sub calculate_distances {
-    my ($atom_row) = @_;
-    my @distances;
-    for my $txt ( sort keys %text_data ) {
-        my $ligands = $text_data{ $txt };
-        my @lig_distances;
-        # Array reference..here we are refering to each subelement of @ligands (worst explanation sorry :P
-        # Yeah, so $ligands is an array reference...so here we iterate over each one
-        # Hopefully the variable names make this all obvious..yes it makes :)
-        for my $ligand ( @$ligands ) {
-            my $lig_coord = $ligand->{ligand_coord};
-            my $dist = distance( $atom_row, $lig_coord );
-            push @lig_distances, { ligand_coord => $lig_coord, distance => $dist };
-        }
-        push @distances, { text_file => $txt, distances => \@lig_distances };
-    }
-
-    return \@distances;
-    # Ok, here we are calculating distance between each ligand row and 1 atom row and under
-    # @dinstaces are result, right? yes
-}
 
 # Here we are just grab(b)ing rows from the text files where are ligand coord..
 
@@ -336,19 +354,21 @@ sub find_between {
     return @results;
 }
 
-sub percent_between {
-    my ($percent, $min, $max, $array_ref) = @_;
-    my $n = scalar @$array_ref;
-    return 0 unless $n > 0;
-
-    my @match = find_between( $min, $max, $array_ref );
-    my $n_match = scalar @match;
-    return ( ( $n_match / $n ) > ( $percent / 100 ) ) ? 1 : 0;
-}
-
 sub move_file {
     my ($file, $dest_dir) = @_;
     print "Moving $file to $dest_dir\n";
+    if ( -f "$dest_dir/$file" ) {
+        print "--> Already moved to $dest_dir\n";
+        return;
+    }
+
+    for my $dir ( DIR_COV, DIR_2_4, DIR_4_5, DIR_5_6 ) {
+        if ( -f "$dir/$file" ) {
+            print "--> Sorry, you already moved it to $dir\n";
+            return;
+        }
+    }
+
     rename $file, "$dest_dir/$file"
         or die "Unable to move $file to $dest_dir : $!";
 }
