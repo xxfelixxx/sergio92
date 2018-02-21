@@ -1,7 +1,6 @@
 language: perl
 perl:
   - "5.24"
-before_install:
-  - sudo apt-get -qq update
+install: true
 script:
   - ./run_tests
