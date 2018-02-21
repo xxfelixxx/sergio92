@@ -4,15 +4,15 @@ DIR=$( dirname "$BASH_SOURCE" )
 source $DIR/.bash_functions
 
 header "Searching for Perl test files"
-PERL_TEST_FILES=$( find $DIR/               | # Find all things
-                        grep '/t/'          | # that live in a testing directory /t/
-                        grep -v '~'         | # that do not end in a tilda (~)
-                        xargs file -F ""    | # run the 'file' command on each one
-                        grep 'Perl script'  | # keep only those which are of type 'Perl script'
-                        grep -v '\.test'    | # and ignore any that have a .test path
-                        cut -f1 -d' '       | # keep only the filename
-                        sort                | # sort the result
-                        xargs readlink -f   ) # convert each one to absolute path
+PERL_TEST_FILES=$( find $DIR/                 | # Find all things
+                        grep '/t/'            | # that live in a testing directory /t/
+                        grep -v '~'           | # that do not end in a tilda (~)
+                        xargs file -F ""      | # run the 'file' command on each one
+                        grep -i 'perl script' | # keep only those which are of type 'Perl script'
+                        grep -v '\.test'      | # and ignore any that have a .test path
+                        cut -f1 -d' '         | # keep only the filename
+                        sort                  | # sort the result
+                        xargs readlink -f     ) # convert each one to absolute path
 
 COUNT=$( echo "$PERL_TEST_FILES" | wc -l )
 info "Found $COUNT test files"
