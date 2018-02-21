@@ -40,9 +40,10 @@ my @test_files = (
 );
 for my $file_data ( @test_files ) {
     my $file = $file_data->{name};
+    my $src = "$Bin/$test_data/$file";
     note("Copying $file to $test_path");
-    copy( "$test_data/$file", $test_path )
-        or die "Unable to copy $test_data/$file to $test_path";
+    copy( "$src", $test_path )
+        or die "Unable to copy $src to $test_path";
     note("TODO: Validate sha1");
 }
 
@@ -61,26 +62,34 @@ if ( -f $ligands_txt ) {
     unlink $ligands_txt
         or die "Unable to unlink $ligands_txt : $!";
 } 
-my $distance_cmd = "cd $test_path && $^X $distances_script --percent=10";
-note("Executing the distances_script on the test directory");
+my $percent = 70;
+my $distance_cmd = "cd $test_path && $^X $distances_script --percent=$percent";
+note("Executing distances.pl with percent = $percent");
+note("[ $distance_cmd ]");
 (system($distance_cmd) == 0)
     or BAIL_OUT("Unable to run '$distance_cmd' : $!");
 pass("Script 2 ran ok");
 
-# Now we check the results
-die;
-opendir my $dir, $expected
-    or die "Unable to opendir $expected : $!";
+my %expected_files = (
+    'covalently_bound' => [ ], # Nothing
+    '2_4'              => [ '1A7L.pdb', 'MAL#A#400.txt', 'MAL#B#400.txt' ],
+    '4_5'              => [ 'MAL#C#400.txt' ],
+    '5_6'              => [ ], # Nothing
+);
 
-# Ignore any possible dot files, or ~ backup files
-my @expected_files = grep { !/~$/ && ! /^\./ && -f "$expected/$_" } readdir($dir);
-for my $file (@expected_files) {
-    my $sha1 = sha1("$expected/$file");
-    my $tfile = "$test_path/$file";
-    ok( -f $tfile, "Found $tfile" );
-    my $tfile_sha1 = sha1($tfile);
-    ok($sha1 == $tfile_sha1, "$file has correct checksum")
-        or show_diff( "$expected/$file", $tfile );
+# Now we check the results
+for my $result_dir ( sort keys %expected_files ) {
+    my $result_path = "$test_path/$result_dir";
+    opendir my $dir, $result_path
+    or die "Unable to opendir $result_path : $!";
+    my @found_files = grep { !/~$/ && ! /^\./ && -f "$result_path/$_" } readdir($dir);
+    my $nfound = scalar @found_files;
+    my @expected_files = @{ $expected_files{$result_dir} };
+    my $nexpected = scalar @expected_files;
+    note("Checking files found in $result_dir directory");
+    ok($nfound == $nexpected, "Correct number [ $nexpected ] : " . join(' ', @expected_files))
+        or diag("Expected $nexpected but got $nfound files!\n"
+                . join(' ', @found_files) . "\nvs\n" . join(' ', @expected_files));
 }
 
 my $builder = Test::More->builder();
