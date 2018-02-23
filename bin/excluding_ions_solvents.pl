@@ -1,4 +1,4 @@
-#! usr/bin/env perl
+#!/usr/bin/env perl
 
 # Script attempts to filtrate all pdb files and to check and exclude 
 # those who has only ions and solvents presented in their binding site.
