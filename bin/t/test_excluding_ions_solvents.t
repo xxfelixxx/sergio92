@@ -23,7 +23,7 @@ my @test_files = (
 );
 
 for my $file_data ( @test_files ) {
-    my $file = join('/', 'test_ligand_data', $file_data->{name});
+    my $file = join('/', $Bin, 'test_ligand_data', $file_data->{name});
     ok( -f $file, "Found " . $file_data->{name} );
     my $expected = join('_', $file_data->{name}, $file_data->{lig} );
     chomp(my $result = qx( $script $file ));
