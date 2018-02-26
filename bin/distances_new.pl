@@ -1,12 +1,29 @@
 #!/usr/bin/env perl
 
+# Ok while going trough the script I had some misunderstandings so if we can go trough it.
+# Instead of using space to split the columns I have changed it to substrings because some
+# columns are merged..i have also included leading trim in case line starts with whitespace
+
+# you know, you can split on more than one character.... split /\s+/ to split on space_S_
+# foo    bar     baz => ( 'foo', 'bar', 'baz')
+# documentation: perldoc -f split
+# yes I know that I can split on space and one a character as well..but here I think we had a
+# problem with that becasue in some pdb files columns are merged. So I think substring is a good
+# choice.
+
+# Apart from that..i want to go trough final loops while calculating distances..i wanted previousl
+# to change it and I didn't make it because I made some mess :P
+# also while running a script it appears becasue we use move_file subroutine..it appears that
+# not all pdb files stay in their original folder.
+# lets go step by step, ok? ok
+
 #------ perl pragmas
 use strict;
 use warnings;
 
 #------ perl Modules
 use File::Glob;
-use Getopt::Long;
+use Getopt::Long; # what do we use this one for?
 
 # Ok here in this script main point are subroutines or functions taht we are using and there are
 # few of them..
@@ -50,7 +67,12 @@ use constant PERCENT => 70;
 
 #----------------
 
-# What is verbose? Get options?
+# Command line options --percent=20 --verbose
+# It would be usefule to have a usage() section (i.e. --help)
+# It is considered good practice to have scripts not just run, but to take options...
+# I see..what we were relating verbose to?  # search for $verbose and find out. I forgot its not
+# Ctrl-s ( you can erase as well in the minibuffer (the bottom line below the purple line))
+# Ctrl-g to get you out of trouble. Yeah. Soo, verbose we used just to turn on debugging lines. Ok
 my $percent = PERCENT;
 my $verbose;
 GetOptions("percent=i" => \$percent,
@@ -67,6 +89,7 @@ for my $dir ( DIR_COV, DIR_2_4, DIR_4_5, DIR_5_6 ) {
 }
 
 # Collect all of the Text file data into memory
+# What does it mean into memory? Into %text_data. Ok
 my %text_data;
 # Here we are refering to all txt files
 for my $txt_file ( glob '*txt' ) {
@@ -86,6 +109,10 @@ die "No PDB files found!" unless keys %atoms;
 
 for my $txt_file ( sort keys %text_data ) {
     for my $pdb ( sort keys %atoms ) {
+        # After every pdb, but remember, you are repeating pdbs over and over,
+        # for each $txt_file....you could skip this step if the pdb has already
+        # been moved by checking if the pdb file is still in its original location...I see
+        # lets keep it like this.
         calculate_ligand_distances($txt_file, $pdb);
     }
 }
@@ -100,18 +127,83 @@ exit 0;
 # chunks that you can more easily reason about...
 
 
-
-sub ltrim($)
+# you don't need the prototype ($), unless you know what you are doing...and you don't
+sub ltrim
 {
 	my $string = shift;
 	$string =~ s/^\s+//;
 	return $string;
 }
 
+# Ok I think everything is fine overall just here to make some modifications and we can use file
+# 1A2C.pdb for testing since all of his txt files are transfered to 2-4 fodler and should be
+# in 0-2 for sure..so thats what I didnt understand why..ok so
+
+# Just give me 1 min.
+# So the way we are doing it now:
+#
+#one txt file
+
+# HETATM1 > with all protein ATOM (if 1000) from pdb > 1000 results > meets 0-2..break loop move
+# HETATM2 > -||-
+# HETATM3 > -||-
+# and so on
+
+# so we are also breaking out of loop if the result is alsobtw 2-4.. so the problem is
+# that if for each calculation between atoms (result 1000) first result is 3.1234 then it will
+# immediately break out of the loop and move file to 2-4 folder..although result 545 may be
+# 1.3453, but this file should have
+# been moved to 0-2 folder then.
+
+# So I am thinking..maybe to put it into a seperate loops or to apply this logic:
+
+# I have an idea....instead of attempting to move the file inside this loop,
+# why not just store which folder you would move it to, and then after all of the txt
+# lines, pick the winning folder. So something like..memorizing file moving paths and then
+# picking up folder files to be moved? yes. so instead of having a side effect, i.e.
+# moving files, this function could just return the folder name, and we could store the
+# best one for each pdb file
+# just need to remove move_file logic, and have it return a folder id instead.
+# I see it very much makes sense..jsut one thing..how to decide which folder is the best one..
+# because we are not searching here and picking best folder..we just want to know how far away
+# is ligand (small molecule sclosely binded to the protein) from the protein by calculating his
+# distances. Since each txt file correspond to one ligand (or same ligand but differently
+# positioned) then I don't know if it makes sense..many ligands will go to all three 2-4, 4-5, 5-6
+# folders becase they are very close..but not many will end up in covalently_bound folder.
+
+# So basically..its a bit messy but if we can say:
+# Do whole calculation (btw all ligand and protein atoms) and check if it is 0-2..here we can
+# break the loop when it is calculating HETATM1>all protein ATOMs(1000)..then if it meets 1.3123
+# as a result while calculating HETATM1 and 554 ATOM of the protein..then we should break it and
+# move to HETATM2> all protein ATOMs..
+# same should be done for 2-4 4-5 5-6 but here instead of writing 3 seperated loops and doing sam
+# calculations 4 times..maybe we can memorize it somehow....and we can also include braeking loop
+# but when it meets all three ranges (2-4,4-5,5-6)..
+
+# And as weel, we put that pdb file also has to be moved to covalently_bound folder, but we
+# only want it to be moved to 2-4 range and nowhere else (id some txt filess are moved as well)..
+# I have tried to change it by deleting $pdb_file but I made some mess a bit..
+
+# I'm actually not at all clear about what you want to do here...
+# So, briefly..
+
+# one folder with 3 txt files and one pdb file
+# txt file : HETATM lines (usually not more then 20)
+# pdb file : Atom lines (usually few thousand)
+# we have extracted distances and set the formula for calculation
+
+# we want to check the distances between each ligand atoms HETATM and all protein atoms ATOM
+
+# I know that...I am not sure what you want to change from the current behavior.
+
 sub calculate_ligand_distances {
     my ($txt_file,$pdb_file) = @_;
     my ($count_2_4,$count_4_5,$count_5_6) = (0,0,0);
+    # counting the number of ligand rows for eaxh txt file
     my $ligand_rows = scalar @{ $text_data{$txt_file }};
+    # here LIGAND_ROW corresponds to each ligand row..each hetatm line? y
+    # Ok here we are starting with first line of first txt file withing a folder
+    # and calculating distances between this line and all ATOM lines from pdb file
   LIGAND_ROW:
     for my $ligand ( @{ $text_data{$txt_file} } ) {
         my @distances;
@@ -122,13 +214,45 @@ sub calculate_ligand_distances {
             push @distances, $dist;
         }
 
-        my @less_than_2 = find_between( 0, 2, \@distances );
-        if ( scalar @less_than_2 ) {
-            move_file( $pdb_file, 
-                       scalar @less_than_2 == 1 ? DIR_COV : DIR_2_4 );
+        # why do we use here find_between and not find_any ?
+        # we just want to check if the result of each calc is within this range
+        # we can change it to find_any, to make it more consistent
+        # should here be any_between instaed of find_any? yes
+
+
+        # here we want onlt txt file to be moved not pdb file as well, so if I remove $pdb_fil
+        # it gives me some errors in subroutine move_file...what error? something related
+        # to the destination..and implies it to lines of move_file subroutine..unclear
+        # ok, lets just delete $pdb_file so lets see what we will get after running it, ok?y
+
+        # that does not make any sense, what file are you moving? here nither..have to put
+        # txt file. thanks :) ok
+        # So here..in the first loop will it go trough all calcuations of one txt-pdb file
+        # until it finds 0-2 and then if not it tries to find other ranges or all at once?
+        # after each calc ligand line vs all pdb lines, it sees if any dirs are appropriate..
+        # Ok I see, and here it only moves txt files 0-2 if they are within this range and
+        # other results it just memorize somehow?
+        # it counts
+        # So here we are moving to lig_atom2 - all protein atoms? basically its like
+        # a goto...so go to the LIGAND_ROW label, i.e. skip the rest of the counting
+        # for the other folders.
+        # So it will seach for all LIGAND_ROWs? and we have to check for each ligand row range
+        # 0-2 as well..because this range can be result at calculations btw lig_atom5-allprot
+        # atoms..yes..even though we already moved the file...(we have the data in memory) ok
+
+        # clearer? yes. thank u felix :)
+        my $n_less_than_2 = any_between ( 0, 2, \@distances );
+        if ( $n_less_than_2 ) {
+            move_file(  $txt_file,
+                        $n_less_than_2 == 1 ? DIR_COV : DIR_2_4 );
             next LIGAND_ROW;
         }
-
+        # here we are counting the result to be btw different ranges , counting # lines in txt
+        # file that match these criteria, we use these counts to figure out the cutoffs...
+        # percents..yes I see..are we starting these countings and calculations from the
+        # lig_Atom1 - all protein atoms? yes. I see. I think all these parts should be good
+        # just one think what kept me condusing..is moving of this pdb file..
+        # it condused me moving it to 0-2 but now since we changed it it shouldnt be a problem..
         if ( any_between( 2, 4, \@distances ) ) {
             $count_2_4++;
         }
@@ -171,13 +295,57 @@ sub calculate_ligand_distances {
         # I think I need to stop...perhaps you could continue.
         # we are almost finished..can we try to run this on our examples?
         # I rhink we ddid 99 percent?
+        # here after all these comments this else loop stays empty and it doesnt seems to be a
+        # problem solved. :D u make me laugh now :D
+        debug("Hit the else block, wtf?"); # do we need this loop although its empty?
+        # it is not a loop, it is a block, specifically an else-block, yes you need it
+        # not because it won't run, but because you will introduce bugs if you don't check
+        # your else-blocks. Yeah I see but before there were no debugs we put it now
+        # so apart from that is there something else important? ? what are you asking?
+        # we put debug line today so while running it last time this block was empty
+        # it didn't give any errors but it was empty so we could have deleted it, but now we
+        # need it, right?  it is coding style, there are lots of things which are not
+        # strictly necessary, but you do because they help you later...you haven't been burned
+        # by a missing else block before, so you don't know to do this...of course, thats why I
+        # ask ..know that there must be something. :)
+        # specifically in this code, it means that we didn't match any folders....the consequence
+        # of which will be that the files don't get moved.....so when that happens, and you
+        # scratch your head....and you turn on --verbose...you will see this wtf line...
+        # and know what is actually going on....if it wasn't there, you wouldn't get any feedback
+        # at all, and would have to manually try to debug it (maybe its not a bug...that's how
+        # the data is...but it _feels_ like a bug because nothing happened...) I see.
+        # thanks felix :) this style of programming is called 'defensive'. Pretty descriptive name
+        # ok so I guess thats it..can we try to run it on 1A2C.pdb to see if it gives range 0-2?
+
+        # Sure...
     }
+    # here we are moving pdb file to all three directories? no, just the winning one.
+    # which one is the winning one? whichever branch of the if/elsif/... above it hits.
+    # we should onlt move it to 2-4 folder if percentage is matches..together with txt files
+    # because if i have txt files in 2-4 folder without pdb then I have tochange it
+    # and one more..for txt files if it picks up 4-5 or 5-6 to bw winning (first matched?) then it
+    # move then to these folders..although relating to percetange it can also be moved to 2-4 and
+    # it is not because its not the winning? yes, they are picked in order, if 2-4 then 2-4 else
+    # if 4-5 then 4-5, else then ...etc you can change the logic, but that is the logic you wanted
+    # so it first checks 2-4 fodler among these three? and then if notting to be moved there..
+    # it checks 4-5 and 5-6 folders? yes, in that order.....
     if ($dest) {
         move_file( $pdb_file, $dest );
         move_file( $txt_file, $dest );
     }
 
 }
+# we added this subroutine last time..and now we have find_btw and any_btw..we used any_btw for
+# loop where we calculated distances within 0-2 range and we used find_btw for all other ranges..
+# since we dont care what number it is, we care about range so shouldnt we use only once of these?
+# like any_btw? Its opposite tough..ultimately, this is your logic, and it has to make
+# sense for you, so you can defend it.
+
+# i am having a hard time understanding whats the difference btw find_btw and aby_btw?
+
+# one returns all of the matches, the other returns the count ( 0 if none, > 0 if some )
+# so you could use it for boolean logic, i.e. if (any_between(...)) { ... }..now I see
+# Thanks travis!
 
 sub any_between {
     my ($min, $max, $array_ref) = @_;
@@ -270,7 +438,18 @@ sub parse_row {
     # I see..so here we are taking each value of the splitted rows and assigning it to the
     # x,y,z coordinates?
     # only for columns 6,7,8.
-   	    my $x_space = substr $row, 30, 8;
+
+    # Here I have made some changes..
+    # so substr is dangerous....if you get the indexes wrong...yes I know..but after
+    # checking it on my test files (108 files) it appears to be ok because each column
+    # surely starts at the place i input (pdb file manual) but some of them are merged..
+    # so I think I won't be having a problem with that because of the leading trim..
+    # I couldn't think of any other way to delete all white spaces and to keep indexes correct.
+    # ok.... I wouldn't do it this way, because ther is a risk that some other pdb file
+    # has extra/missing space....the problem really is...it will work, i.e. not complain
+    # even if the data are garbage...yeah I see..i will have to check it while running it on 60k.
+
+	    my $x_space = substr $row, 30, 8;
 	    my $x = ltrim ($x_space);
 	    print "$x\n";
    	    my $y_space = substr $row, 38, 8;
@@ -306,10 +485,17 @@ sub find_between {
     # And these number are distances results? Can be anything..ok we probably used this
     # subroutine while we were moving files to a folders...maybe ..but that detail
     # is not important here...then why do we have to take values that are btw min and max?
+    # should we use here $min >=? no..unless that makes sense to you...
+    # you go through 0-2, 2-4, etc. in increasing order...but if you want _anything_
+    # less than some number, then change it to 0 <= $_
     my @results = grep { $min <= $_ && $_ < $max } @$array_ref;
     return @results;
 }
 
+# Not that rarely when pdb file has beeing moved, he moved to some directory but there couldnt be
+# found his copy in the original folder?
+# It means it got processed already. Ok. so it actually stays in a original folder until  all
+# calculations are finished and then he is beeing moved?
 sub move_file {
     my ($file, $dest_dir) = @_;
     print "Moving $file to $dest_dir\n";
