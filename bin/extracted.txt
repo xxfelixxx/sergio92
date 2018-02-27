@@ -1,0 +1,581 @@
+HEADER    OXIDOREDUCTASE                          09-DEC-97   1A05              
+SOURCE   2 ORGANISM_SCIENTIFIC: ACIDITHIOBACILLUS FERROOXIDANS;                 
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    2.00 ANGSTROMS.                                       
+HETNAM      MG MAGNESIUM ION                                                    
+HETNAM     IPM 3-ISOPROPYLMALIC ACID                                            
+FORMUL   3   MG    2(MG 2+)                                                     
+FORMUL   5  IPM    2(C7 H12 O5)                                                 
+FORMUL   7  HOH   *504(H2 O)                                                    
+END                                                                             
+﻿HEADER    TRANSFERASE                             30-NOV-97   1A0G              
+SOURCE   2 ORGANISM_SCIENTIFIC: BACILLUS SP.;                                   
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    2.00 ANGSTROMS.                                       
+HETNAM     PMP 4'-DEOXY-4'-AMINOPYRIDOXAL-5'-PHOSPHATE                          
+FORMUL   3  PMP    2(C8 H13 N2 O5 P)                                            
+FORMUL   5  HOH   *166(H2 O)                                                    
+END                                                                             
+HEADER    SERINE PROTEASE                         01-DEC-97   1A0J              
+SOURCE   2 ORGANISM_SCIENTIFIC: SALMO SALAR;                                    
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    1.70 ANGSTROMS.                                       
+HETNAM      CA CALCIUM ION                                                      
+HETNAM     SO4 SULFATE ION                                                      
+HETNAM     BEN BENZAMIDINE                                                      
+FORMUL   5   CA    CA 2+                                                        
+FORMUL   6  SO4    10(O4 S 2-)                                                  
+FORMUL  16  BEN    4(C7 H8 N2)                                                  
+FORMUL  20  HOH   *379(H2 O)                                                    
+END                                                                             
+HEADER    HYDROLASE/HYDROLASE INHIBITOR           03-DEC-97   1A0L              
+SOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;                                   
+EXPDTA    X-RAY DIFFRACTION                                                     
+REVDAT   4   09-MAR-11 1A0L    1       HETNAM FORMUL HEADER                     
+REMARK   2 RESOLUTION.    3.00 ANGSTROMS.                                       
+HETNAM     APA (2S)-3-(4-CARBAMIMIDOYLPHENYL)-2-HYDROXYPROPANOIC ACID           
+FORMUL   5  APA    4(C10 H12 N2 O3)                                             
+FORMUL   9  HOH   *96(H2 O)                                                     
+END                                                                             
+HEADER    CATALYTIC ANTIBODY                      05-DEC-97   1A0Q              
+SOURCE   2 ORGANISM_SCIENTIFIC: MUS MUSCULUS;                                   
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    2.30 ANGSTROMS.                                       
+HETNAM      ZN ZINC ION                                                         
+HETNAM     HEP PHENYL[1-(N-SUCCINYLAMINO)PENTYL]PHOSPHONATE                     
+FORMUL   3   ZN    3(ZN 2+)                                                     
+FORMUL   6  HEP    C15 H22 N O6 P                                               
+FORMUL   7  HOH   *92(H2 O)                                                     
+END                                                                             
+HEADER    COMPLEX (TRANSDUCER/TRANSDUCTION)       05-DEC-97   1A0R              
+SOURCE   2 ORGANISM_SCIENTIFIC: BOS TAURUS;                                     
+EXPDTA    X-RAY DIFFRACTION                                                     
+REVDAT   2 3                   3       KEYWDS HEADER HETNAM                     
+REMARK   2 RESOLUTION.    2.80 ANGSTROMS.                                       
+HETNAM     ACE ACETYL GROUP                                                     
+HETNAM     FAR FARNESYL                                                         
+FORMUL   1  ACE    C2 H4 O                                                      
+FORMUL   4  FAR    C15 H26                                                      
+FORMUL   5  HOH   *21(H2 O)                                                     
+END                                                                             
+HEADER    OUTER MEMBRANE PROTEIN                  08-DEC-97   1A0T              
+SOURCE   2 ORGANISM_SCIENTIFIC: SALMONELLA TYPHIMURIUM;                         
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    2.40 ANGSTROMS.                                       
+HETNAM     SUC SUCROSE                                                          
+HETNAM      CA CALCIUM ION                                                      
+FORMUL   4  SUC    6(C12 H22 O11)                                               
+FORMUL  10   CA    3(CA 2+)                                                     
+FORMUL  13  HOH   *330(H2 O)                                                    
+END                                                                             
+HEADER    ONCOGENE PROTEIN                        26-DEC-97   1A2B              
+SOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;                                   
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    2.40 ANGSTROMS.                                       
+HETNAM      MG MAGNESIUM ION                                                    
+HETNAM     GSP 5'-GUANOSINE-DIPHOSPHATE-MONOTHIOPHOSPHATE                       
+FORMUL   2   MG    MG 2+                                                        
+FORMUL   3  GSP    C10 H16 N5 O13 P3 S                                          
+FORMUL   4  HOH   *38(H2 O)                                                     
+END                                                                             
+HEADER    FATTY ACID BINDING PROTEIN              29-DEC-97   1A2D              
+SOURCE   2 ORGANISM_SCIENTIFIC: MUS MUSCULUS;                                   
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    2.40 ANGSTROMS.                                       
+HETNAM     PYX S-[S-THIOPYRIDOXAMINYL]CYSTEINE                                  
+HETNAM      CL CHLORIDE ION                                                     
+FORMUL   1  PYX    2(C11 H17 N3 O3 S2)                                          
+FORMUL   3   CL    2(CL 1-)                                                     
+FORMUL   5  HOH   *40(H2 O)                                                     
+END                                                                             
+HEADER    TRANSFERASE                             06-JAN-98   1A2N              
+SOURCE   2 ORGANISM_SCIENTIFIC: ESCHERICHIA COLI;                               
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    2.80 ANGSTROMS.                                       
+HETNAM     TET URIDINE-DIPHOSPHATE-2(N-ACETYLGLUCOSAMINYL-3-FLUORO-2-           
+HETNAM   2 TET  PHOSPHONOOXY)PROPIONIC ACID                                     
+FORMUL   2  TET    C20 H31 F N3 O23 P3                                          
+FORMUL   3  HOH   *271(H2 O)                                                    
+END                                                                             
+HEADER    HYDROLASE                               08-JAN-98   1A2Q              
+SOURCE   2 ORGANISM_SCIENTIFIC: BACILLUS AMYLOLIQUEFACIENS;                     
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    1.80 ANGSTROMS.                                       
+HETNAM     MIS MONOISOPROPYLPHOSPHORYLSERINE                                    
+HETNAM      CA CALCIUM ION                                                      
+HETNAM     ACN ACETONE                                                          
+FORMUL   1  MIS    C6 H14 N O6 P                                                
+FORMUL   2   CA    2(CA 2+)                                                     
+FORMUL   4  ACN    2(C3 H6 O)                                                   
+FORMUL   6  HOH   *186(H2 O)                                                    
+END                                                                             
+HEADER    NUCLEASE                                11-JAN-98   1A2T              
+SOURCE   2 ORGANISM_SCIENTIFIC: STAPHYLOCOCCUS AUREUS;                          
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    1.96 ANGSTROMS.                                       
+HETNAM     CME S,S-(2-HYDROXYETHYL)THIOCYSTEINE                                 
+HETNAM      CA CALCIUM ION                                                      
+HETNAM     THP THYMIDINE-3',5'-DIPHOSPHATE                                      
+FORMUL   1  CME    C5 H11 N O3 S2                                               
+FORMUL   2   CA    CA 2+                                                        
+FORMUL   3  THP    C10 H16 N2 O11 P2                                            
+FORMUL   4  HOH   *45(H2 O)                                                     
+END                                                                             
+HEADER    NUCLEASE                                11-JAN-98   1A2U              
+SOURCE   2 ORGANISM_SCIENTIFIC: STAPHYLOCOCCUS AUREUS;                          
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    2.00 ANGSTROMS.                                       
+HETNAM     BUC S,S-BUTYLTHIOCYSTEINE                                            
+HETNAM      CA CALCIUM ION                                                      
+HETNAM     THP THYMIDINE-3',5'-DIPHOSPHATE                                      
+FORMUL   1  BUC    C7 H15 N O2 S2                                               
+FORMUL   2   CA    CA 2+                                                        
+FORMUL   3  THP    C10 H16 N2 O11 P2                                            
+FORMUL   4  HOH   *42(H2 O)                                                     
+END                                                                             
+HEADER    AMINE OXIDASE                           12-JAN-98   1A2V              
+SOURCE   2 ORGANISM_SCIENTIFIC: PICHIA ANGUSTA;                                 
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    2.40 ANGSTROMS.                                       
+HETNAM     TPQ 5-(2-CARBOXY-2-AMINOETHYL)-2-HYDROXY-1,4-BENZOQUINONE            
+HETNAM      CU COPPER (II) ION                                                  
+FORMUL   1  TPQ    6(C9 H9 N O5)                                                
+FORMUL   7   CU    6(CU 2+)                                                     
+FORMUL  13  HOH   *2556(H2 O)                                                   
+END                                                                             
+HEADER    HYDROLASE/HYDROLASE INHIBITOR           20-JAN-98   1A3B              
+SOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;                                   
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    1.80 ANGSTROMS.                                       
+HETNAM     T29 TRI166 (BIFUNCTIONAL BORONATE INHIBITOR)                         
+FORMUL   4  T29    C22 H34 B N5 O5 S                                            
+FORMUL   5  HOH   *247(H2 O)                                                    
+END                                                                             
+HEADER    HYDROLASE/HYDROLASE INHIBITOR           21-JAN-98   1A3E              
+SOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;                                   
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    1.85 ANGSTROMS.                                       
+HETNAM     T16 BOROLOG2                                                         
+FORMUL   4  T16    C23 H32 B BR2 N3 O6                                          
+FORMUL   5  HOH   *206(H2 O)                                                    
+END                                                                             
+HEADER    GALECTIN                                22-JAN-98   1A3K              
+SOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;                                   
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    2.10 ANGSTROMS.                                       
+HETNAM     GAL BETA-D-GALACTOSE                                                 
+HETNAM     NAG N-ACETYL-D-GLUCOSAMINE                                           
+FORMUL   2  GAL    C6 H12 O6                                                    
+FORMUL   2  NAG    C8 H15 N O6                                                  
+FORMUL   3  HOH   *120(H2 O)                                                    
+END                                                                             
+HEADER    IMMUNOGLOBULIN                          22-JAN-98   1A3L              
+SOURCE   2 ORGANISM_SCIENTIFIC: MUS MUSCULUS;                                   
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    1.95 ANGSTROMS.                                       
+HETNAM     CFC 1-CARBOXY-1'-[(DIMETHYLAMINO)-CARBONYL]FERROCENE                 
+FORMUL   3  CFC    C14 H15 FE N O3                                              
+FORMUL   4  HOH   *309(H2 O)                                                    
+END                                                                             
+HEADER    NUCLEASE                                24-JAN-98   1A3T              
+SOURCE   2 ORGANISM_SCIENTIFIC: STAPHYLOCOCCUS AUREUS;                          
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    2.10 ANGSTROMS.                                       
+HETNAM     EFC S,S-(2-FLUOROETHYL)THIOCYSTEINE                                  
+HETNAM      CA CALCIUM ION                                                      
+HETNAM     THP THYMIDINE-3',5'-DIPHOSPHATE                                      
+FORMUL   1  EFC    C5 H10 F N O2 S2                                             
+FORMUL   2   CA    CA 2+                                                        
+FORMUL   3  THP    C10 H16 N2 O11 P2                                            
+FORMUL   4  HOH   *38(H2 O)                                                     
+END                                                                             
+HEADER    NUCLEASE                                24-JAN-98   1A3U              
+SOURCE   2 ORGANISM_SCIENTIFIC: STAPHYLOCOCCUS AUREUS;                          
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    2.05 ANGSTROMS.                                       
+HETNAM     C6C S-CYCLOHEXYL THIOCYSTEINE                                        
+HETNAM      CA CALCIUM ION                                                      
+HETNAM     THP THYMIDINE-3',5'-DIPHOSPHATE                                      
+FORMUL   1  C6C    C9 H17 N O2 S2                                               
+FORMUL   2   CA    CA 2+                                                        
+FORMUL   3  THP    C10 H16 N2 O11 P2                                            
+FORMUL   4  HOH   *41(H2 O)                                                     
+END                                                                             
+HEADER    NUCLEASE                                24-JAN-98   1A3V              
+SOURCE   2 ORGANISM_SCIENTIFIC: STAPHYLOCOCCUS AUREUS;                          
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    2.20 ANGSTROMS.                                       
+HETNAM     C5C S-CYCLOPENTYL THIOCYSTEINE                                       
+HETNAM      CA CALCIUM ION                                                      
+HETNAM     THP THYMIDINE-3',5'-DIPHOSPHATE                                      
+FORMUL   1  C5C    C8 H15 N O2 S2                                               
+FORMUL   2   CA    CA 2+                                                        
+FORMUL   3  THP    C10 H16 N2 O11 P2                                            
+FORMUL   4  HOH   *34(H2 O)                                                     
+END                                                                             
+HEADER    TRANSFERASE                             26-JAN-98   1A3W              
+SOURCE   2 ORGANISM_SCIENTIFIC: SACCHAROMYCES CEREVISIAE;                       
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    3.00 ANGSTROMS.                                       
+HETNAM     PGA 2-PHOSPHOGLYCOLIC ACID                                           
+HETNAM     FBP BETA-FRUCTOSE-1,6-DIPHOSPHATE                                    
+HETNAM      MN MANGANESE (II) ION                                               
+HETNAM       K POTASSIUM ION                                                    
+FORMUL   3  PGA    2(C2 H5 O6 P)                                                
+FORMUL   4  FBP    2(C6 H14 O12 P2)                                             
+FORMUL   7   MN    2(MN 2+)                                                     
+FORMUL   8    K    2(K 1+)                                                      
+END                                                                             
+HEADER    HYDROLASE                               29-JAN-98   1A4G              
+SOURCE   2 ORGANISM_SCIENTIFIC: INFLUENZA B VIRUS (STRAIN B/BEIJING/1/87);      
+EXPDTA    X-RAY DIFFRACTION                                                     
+REVDAT   2 2                   3       REMARK HETATM KEYWDS HEADER              
+REMARK   2 RESOLUTION.    2.20 ANGSTROMS.                                       
+HETNAM     NAG N-ACETYL-D-GLUCOSAMINE                                           
+HETNAM      CA CALCIUM ION                                                      
+HETNAM     ZMR ZANAMIVIR                                                        
+FORMUL   3  NAG    2(C8 H15 N O6)                                               
+FORMUL   5   CA    3(CA 2+)                                                     
+FORMUL   8  ZMR    2(C12 H20 N4 O7)                                             
+FORMUL  10  HOH   *492(H2 O)                                                    
+END                                                                             
+HEADER    CHAPERONE                               29-JAN-98   1A4H              
+SOURCE   2 ORGANISM_SCIENTIFIC: SACCHAROMYCES CEREVISIAE;                       
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    2.50 ANGSTROMS.                                       
+HETNAM     GDM GELDANAMYCIN                                                     
+FORMUL   2  GDM    C29 H40 N2 O9                                                
+FORMUL   3  HOH   *154(H2 O)                                                    
+END                                                                             
+HEADER    IMMUNOGLOBULIN                          30-JAN-98   1A4K              
+SOURCE   2 ORGANISM_SCIENTIFIC: MUS MUSCULUS;                                   
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    2.40 ANGSTROMS.                                       
+HETNAM      CD CADMIUM ION                                                      
+HETNAM     FRA [4-(4-ACETYLAMINO-PHENYL)-3,5-DIOXO-4-AZA-                       
+HETNAM   2 FRA  TRICYCLO[5.2.2.0 2,6]UNDEC-1-YLCARBAMOYLOXY]-ACETIC             
+HETNAM   3 FRA  ACID                                                            
+FORMUL   5   CD    4(CD 2+)                                                     
+FORMUL   9  FRA    2(C21 H23 N3 O7)                                             
+FORMUL  11  HOH   *213(H2 O)                                                    
+END                                                                             
+HEADER    HYDROLASE                               31-JAN-98   1A4L              
+SOURCE   2 ORGANISM_SCIENTIFIC: MUS MUSCULUS;                                   
+EXPDTA    X-RAY DIFFRACTION                                                     
+REVDAT   2 2                   1       JRNL   KEYWDS HEADER                     
+REMARK   2 RESOLUTION.    2.60 ANGSTROMS.                                       
+HETNAM      ZN ZINC ION                                                         
+HETNAM     DCF 2'-DEOXYCOFORMYCIN                                               
+FORMUL   5   ZN    4(ZN 2+)                                                     
+FORMUL   9  DCF    4(C11 H16 N4 O4)                                             
+FORMUL  13  HOH   *233(H2 O)                                                    
+END                                                                             
+HEADER    HYDROLASE                               31-JAN-98   1A4M              
+SOURCE   2 ORGANISM_SCIENTIFIC: MUS MUSCULUS;                                   
+EXPDTA    X-RAY DIFFRACTION                                                     
+REVDAT   2 2                   1       JRNL   KEYWDS HEADER                     
+REMARK   2 RESOLUTION.    1.95 ANGSTROMS.                                       
+HETNAM      ZN ZINC ION                                                         
+HETNAM     PRH 6-HYDROXY-1,6-DIHYDRO PURINE NUCLEOSIDE                          
+FORMUL   5   ZN    4(ZN 2+)                                                     
+FORMUL   9  PRH    4(C10 H15 N4 O5 1+)                                          
+FORMUL  13  HOH   *1065(H2 O)                                                   
+END                                                                             
+HEADER    HYDROLASE                               30-JAN-98   1A4Q              
+SOURCE   2 ORGANISM_SCIENTIFIC: INFLUENZA B VIRUS (STRAIN B/BEIJING/1/87);      
+EXPDTA    X-RAY DIFFRACTION                                                     
+REVDAT   2 2                   3       REMARK HETATM KEYWDS HEADER              
+REMARK   2 RESOLUTION.    1.90 ANGSTROMS.                                       
+HETNAM     NAG N-ACETYL-D-GLUCOSAMINE                                           
+HETNAM      CA CALCIUM ION                                                      
+HETNAM     DPC 5-ACETYLAMINO-4-AMINO-6-(PHENETHYL-PROPYL-CARBAMOYL)-5,          
+HETNAM   2 DPC  6-DIHYDRO-4H-PYRAN-2-CARBOXYLIC ACID                            
+FORMUL   3  NAG    2(C8 H15 N O6)                                               
+FORMUL   5   CA    3(CA 2+)                                                     
+FORMUL   8  DPC    2(C20 H27 N3 O5)                                             
+FORMUL  10  HOH   *497(H2 O)                                                    
+END                                                                             
+HEADER    HYDROLASE                               02-FEB-98   1A4R              
+SOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;                                   
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    2.50 ANGSTROMS.                                       
+HETNAM      MG MAGNESIUM ION                                                    
+HETNAM     GDP GUANOSINE-5'-DIPHOSPHATE                                         
+HETNAM     GNH AMINOPHOSPHONIC ACID-GUANYLATE ESTER                             
+FORMUL   3   MG    MG 2+                                                        
+FORMUL   4  GDP    C10 H15 N5 O11 P2                                            
+FORMUL   5  GNH    C10 H16 N6 O10 P2                                            
+FORMUL   6  HOH   *54(H2 O)                                                     
+END                                                                             
+HEADER    HYDROLASE/HYDROLASE INHIBITOR           06-FEB-98   1A4W              
+SOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;                                   
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    1.80 ANGSTROMS.                                       
+HETNAM     TYS O-SULFO-L-TYROSINE                                               
+HETNAM      NA SODIUM ION                                                       
+HETNAM     QWE AMINO{[(4S)-4-({[5-(DIMETHYLAMINO)NAPHTHALEN-1-                  
+HETNAM   2 QWE  YL]SULFONYL}AMINO)-5-OXO-5-{(2R)-2-[3-OXO-3-(1,3-               
+HETNAM   3 QWE  THIAZOL-2-YL)PROPYL]PIPERIDIN-1-                                
+HETNAM   4 QWE  YL}PENTYL]AMINO}METHANIMINIUM                                   
+FORMUL   3  TYS    C9 H11 N O6 S                                                
+FORMUL   4   NA    2(NA 1+)                                                     
+FORMUL   6  QWE    C29 H40 N7 O4 S2 1+                                          
+FORMUL   7  HOH   *157(H2 O)                                                    
+END                                                                             
+HEADER    LYASE                                   12-FEB-98   1A5B              
+SOURCE   2 ORGANISM_SCIENTIFIC: SALMONELLA TYPHIMURIUM;                         
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    2.00 ANGSTROMS.                                       
+HETNAM       K POTASSIUM ION                                                    
+HETNAM     IGP INDOLE-3-GLYCEROL PHOSPHATE                                      
+HETNAM     PLP PYRIDOXAL-5'-PHOSPHATE                                           
+FORMUL   3    K    K 1+                                                         
+FORMUL   4  IGP    C11 H14 N O6 P                                               
+FORMUL   5  PLP    C8 H10 N O6 P                                                
+FORMUL   6  HOH   *337(H2 O)                                                    
+END                                                                             
+HEADER    HYDROLASE/HYDROLASE INHIBITOR           16-FEB-98   1A5G              
+SOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;                                   
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    2.06 ANGSTROMS.                                       
+HETNAM     TYS O-SULFO-L-TYROSINE                                               
+HETNAM      NA SODIUM ION                                                       
+HETNAM     00L (1S,7S)-7-AMINO-7-BENZYL-N-[(1S)-4-CARBAMIMIDAMIDO-1-            
+HETNAM   2 00L  {(1S)-1-HYDROXY-2-OXO-2-[(2-PHENYLETHYL)                        
+HETNAM   3 00L  AMINO]ETHYL}BUTYL]-8-OXOHEXAHYDRO-1H-PYRAZOLO[1,2-              
+HETNAM   4 00L  A]PYRIDAZINE-1-CARBOXAMIDE                                      
+FORMUL   3  TYS    C9 H11 N O6 S                                                
+FORMUL   4   NA    2(NA 1+)                                                     
+FORMUL   6  00L    C30 H42 N8 O4                                                
+FORMUL   7  HOH   *135(H2 O)                                                    
+END                                                                             
+HEADER    HYDROLASE                               17-FEB-98   1A5H              
+SOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;                                   
+EXPDTA    X-RAY DIFFRACTION                                                     
+REVDAT   2   10-MAY-00 1A5H    1       COMPND SOURCE HEADER                     
+REMARK   2 RESOLUTION.    2.90 ANGSTROMS.                                       
+HETNAM     BBA 2,7-BIS-(4-AMIDINOBENZYLIDENE)-CYCLOHEPTAN-1-ONE                 
+FORMUL   5  BBA    2(C23 H28 N4 O)                                              
+FORMUL   7  HOH   *91(H2 O)                                                     
+END                                                                             
+HEADER    HYDROLASE/HYDROLASE INHIBITOR           17-FEB-98   1A5I              
+SOURCE   2 ORGANISM_SCIENTIFIC: DESMODUS ROTUNDUS;                              
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    2.90 ANGSTROMS.                                       
+HETNAM     0GJ L-ALPHA-GLUTAMYL-N-{(1S)-4-{[AMINO(IMINIO)                       
+HETNAM   2 0GJ  METHYL]AMINO}-1-[(1S)-2-CHLORO-1-                               
+HETNAM   3 0GJ  HYDROXYETHYL]BUTYL}GLYCINAMIDE                                  
+FORMUL   2  0GJ    C14 H28 CL N6 O5 1+                                          
+FORMUL   3  HOH   *33(H2 O)                                                     
+END                                                                             
+HEADER    COMPLEX (LYASE/INHIBITOR)               17-FEB-98   1A5S              
+SOURCE   2 ORGANISM_SCIENTIFIC: SALMONELLA TYPHIMURIUM;                         
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    2.30 ANGSTROMS.                                       
+HETNAM      NA SODIUM ION                                                       
+HETNAM     FIP 5-FLUOROINDOLE PROPANOL PHOSPHATE                                
+HETNAM     PLP PYRIDOXAL-5'-PHOSPHATE                                           
+HETNAM     SER SERINE                                                           
+FORMUL   3   NA    NA 1+                                                        
+FORMUL   4  FIP    C11 H13 F N O4 P                                             
+FORMUL   5  PLP    C8 H10 N O6 P                                                
+FORMUL   6  SER    C3 H7 N O3                                                   
+FORMUL   7  HOH   *116(H2 O)                                                    
+END                                                                             
+HEADER    HYDROLASE                               18-FEB-98   1A5V              
+SOURCE   2 ORGANISM_SCIENTIFIC: ROUS SARCOMA VIRUS (STRAIN SCHMIDT-RUPPIN);     
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    1.90 ANGSTROMS.                                       
+HETNAM      MN MANGANESE (II) ION                                               
+HETNAM      Y3 4-ACETYLAMINO-5-HYDROXYNAPHTHALENE-2,7-DISULFONIC ACID           
+FORMUL   2   MN    MN 2+                                                        
+FORMUL   3   Y3    C12 H11 N O8 S2                                              
+FORMUL   4  HOH   *172(H2 O)                                                    
+END                                                                             
+HEADER    HYDROLASE                               18-FEB-98   1A5W              
+SOURCE   2 ORGANISM_SCIENTIFIC: ROUS SARCOMA VIRUS (STRAIN SCHMIDT-             
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    2.00 ANGSTROMS.                                       
+HETNAM      Y3 4-ACETYLAMINO-5-HYDROXYNAPHTHALENE-2,7-DISULFONIC ACID           
+FORMUL   2   Y3    C12 H11 N O8 S2                                              
+FORMUL   3  HOH   *126(H2 O)                                                    
+END                                                                             
+HEADER    HYDROLASE                               18-FEB-98   1A5X              
+SOURCE   2 ORGANISM_SCIENTIFIC: ROUS SARCOMA VIRUS (STRAIN SCHMIDT-             
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    1.90 ANGSTROMS.                                       
+HETNAM      Y3 4-ACETYLAMINO-5-HYDROXYNAPHTHALENE-2,7-DISULFONIC ACID           
+FORMUL   2   Y3    C12 H11 N O8 S2                                              
+FORMUL   3  HOH   *169(H2 O)                                                    
+END                                                                             
+HEADER    OXIDOREDUCTASE                          18-FEB-98   1A5Z              
+SOURCE   2 ORGANISM_SCIENTIFIC: THERMOTOGA MARITIMA;                            
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    2.10 ANGSTROMS.                                       
+HETNAM     FBP BETA-FRUCTOSE-1,6-DIPHOSPHATE                                    
+HETNAM      CD CADMIUM ION                                                      
+HETNAM     OXM OXAMIC ACID                                                      
+HETNAM     NAD NICOTINAMIDE-ADENINE-DINUCLEOTIDE                                
+FORMUL   2  FBP    2(C6 H14 O12 P2)                                             
+FORMUL   4   CD    3(CD 2+)                                                     
+FORMUL   7  OXM    C2 H3 N O3                                                   
+FORMUL   8  NAD    C21 H27 N7 O14 P2                                            
+FORMUL   9  HOH   *344(H2 O)                                                    
+END                                                                             
+HEADER    COMPLEX (TRANSMEMBRANE/GLYCOPROTEIN)    22-FEB-98   1A6A              
+SOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;                                   
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    2.75 ANGSTROMS.                                       
+HETNAM     NAG N-ACETYL-D-GLUCOSAMINE                                           
+FORMUL   4  NAG    2(C8 H15 N O6)                                               
+FORMUL   6  HOH   *22(H2 O)                                                     
+END                                                                             
+HEADER    IMMUNE SYSTEM                           03-MAR-98   1A6V              
+SOURCE   2 ORGANISM_SCIENTIFIC: MUS MUSCULUS;                                   
+EXPDTA    X-RAY DIFFRACTION                                                     
+REVDAT   3   14-AUG-13 1A6V    1       HEADER HET    HETATM KEYWDS              
+REMARK   2 RESOLUTION.    1.80 ANGSTROMS.                                       
+HETNAM     NPC 4-HYDROXY-3-NITROPHENYLACETYL-EPSILON-AMINOCAPROIC ACID          
+HETNAM   2 NPC  ANION                                                           
+FORMUL   7  NPC    3(C14 H17 N2 O6 1-)                                          
+FORMUL   8  HOH   *478(H2 O)                                                    
+END                                                                             
+HEADER    IMMUNOGLOBULIN                          03-MAR-98   1A6W              
+SOURCE   2 ORGANISM_SCIENTIFIC: MUS MUSCULUS;                                   
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    2.00 ANGSTROMS.                                       
+HETNAM     NIP 4-HYDROXY-5-IODO-3-NITROPHENYLACETYL-EPSILON-                    
+HETNAM   2 NIP  AMINOCAPROIC ACID ANION                                         
+FORMUL   3  NIP    C14 H16 I N2 O6 1-                                           
+FORMUL   4  HOH   *182(H2 O)                                                    
+END                                                                             
+HEADER    HYDROLASE                               10-MAR-98   1A7A              
+SOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;                                   
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    2.80 ANGSTROMS.                                       
+HETNAM     MSE SELENOMETHIONINE                                                 
+HETNAM     NAD NICOTINAMIDE-ADENINE-DINUCLEOTIDE                                
+HETNAM     ADC (1'R,2'S)-9-(2-HYDROXY-3'-KETO-CYCLOPENTEN-1-YL)ADENINE          
+FORMUL   1  MSE    30(C5 H11 N O2 SE)                                           
+FORMUL   3  NAD    2(C21 H27 N7 O14 P2)                                         
+FORMUL   5  ADC    2(C10 H11 N5 O2)                                             
+FORMUL   7  HOH   *46(H2 O)                                                     
+END                                                                             
+HEADER    HYDROLASE INHIBITOR/PEPTIDE             12-MAR-98   1A7C              
+SOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;                                   
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    1.95 ANGSTROMS.                                       
+HETNAM     ACE ACETYL GROUP                                                     
+HETNAM     NH2 AMINO GROUP                                                      
+HETNAM     RIP RIBOSE(PYRANOSE FORM)                                            
+HETNAM     NAG N-ACETYL-D-GLUCOSAMINE                                           
+FORMUL   2  ACE    2(C2 H4 O)                                                   
+FORMUL   2  NH2    2(H2 N)                                                      
+FORMUL   4  RIP    C5 H10 O5                                                    
+FORMUL   4  NAG    3(C8 H15 N O6)                                               
+FORMUL   6  HOH   *69(H2 O)                                                     
+END                                                                             
+HEADER    TRANSPORT                               16-MAR-98   1A7L              
+SOURCE   2 ORGANISM_SCIENTIFIC: SYNTHETIC CONSTRUCT;                            
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    2.90 ANGSTROMS.                                       
+HETNAM     MAL MALTOSE                                                          
+FORMUL   4  MAL    3(C12 H22 O11)                                               
+FORMUL   7  HOH   *48(H2 O)                                                     
+END                                                                             
+HEADER    SERINE PROTEASE HOMOLOG                 17-MAR-98   1A7S              
+SOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;                                   
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    1.12 ANGSTROMS.                                       
+HETNAM     NAG N-ACETYL-D-GLUCOSAMINE                                           
+HETNAM      CL CHLORIDE ION                                                     
+HETNAM     EOH ETHANOL                                                          
+FORMUL   2  NAG    3(C8 H15 N O6)                                               
+FORMUL   4   CL    CL 1-                                                        
+FORMUL   5  EOH    15(C2 H6 O)                                                  
+FORMUL  20  HOH   *323(H2 O)                                                    
+END                                                                             
+HEADER    HYDROLASE                               17-MAR-98   1A7T              
+SOURCE   2 ORGANISM_SCIENTIFIC: BACTEROIDES FRAGILIS;                           
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    1.85 ANGSTROMS.                                       
+REMARK   3  AT THE END OF THE X-PLOR PHASE OF THE REFINEMENT, THE WORKING       
+HETNAM      ZN ZINC ION                                                         
+HETNAM      NA SODIUM ION                                                       
+HETNAM     MES 2-(N-MORPHOLINO)-ETHANESULFONIC ACID                             
+FORMUL   3   ZN    4(ZN 2+)                                                     
+FORMUL   5   NA    2(NA 1+)                                                     
+FORMUL   9  MES    2(C6 H13 N O4 S)                                             
+FORMUL  11  HOH   *337(H2 O)                                                    
+END                                                                             
+HEADER    ISOMERASE                               18-MAR-98   1A7X              
+SOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;                                   
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    2.00 ANGSTROMS.                                       
+HETNAM     FKA BENZYL-CARBAMIC ACID [8-DEETHYL-ASCOMYCIN-8-YL]ETHYL             
+HETNAM   2 FKA  ESTER                                                           
+FORMUL   3  FKA    C51 H76 N2 O14                                               
+FORMUL   4  HOH   *177(H2 O)                                                    
+END                                                                             
+HEADER    PHOSPHOLIPID ANALOG                     23-MAR-98   1A8A              
+SOURCE   2 ORGANISM_SCIENTIFIC: RATTUS NORVEGICUS;                              
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    1.90 ANGSTROMS.                                       
+HETNAM      CA CALCIUM ION                                                      
+HETNAM     GSE L-ALPHA-GLYCEROPHOSPHORYLSERINE                                  
+FORMUL   2   CA    10(CA 2+)                                                    
+FORMUL  12  GSE    C6 H14 N O8 P                                                
+FORMUL  13  HOH   *116(H2 O)                                                    
+END                                                                             
+HEADER    CALCIUM BINDING PROTEIN                 23-MAR-98   1A8B              
+SOURCE   2 ORGANISM_SCIENTIFIC: RATTUS NORVEGICUS;                              
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    1.90 ANGSTROMS.                                       
+HETNAM      CA CALCIUM ION                                                      
+HETNAM     GPE L-ALPHA-GLYCEROPHOSPHORYLETHANOLAMINE                            
+FORMUL   2   CA    10(CA 2+)                                                    
+FORMUL  12  GPE    C5 H14 N O6 P                                                
+FORMUL  13  HOH   *155(H2 O)                                                    
+END                                                                             
+HEADER    HYDROLASE/HYDROLASE INHIBITOR           24-MAR-98   1A8G              
+SOURCE   2 ORGANISM_SCIENTIFIC: HUMAN IMMUNODEFICIENCY VIRUS 1;                 
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    2.50 ANGSTROMS.                                       
+HETNAM     2Z4 BENZYL [(1R)-1-({(1S,2S,3S)-1-BENZYL-2-HYDROXY-4-                
+HETNAM   2 2Z4  ({(1S)-1-[(2-HYDROXY-4-METHOXYBENZYL)CARBAMOYL]-2-              
+HETNAM   3 2Z4  METHYLPROPYL}AMINO)-3-[(4-METHOXYBENZYL)AMINO]-4-               
+HETNAM   4 2Z4  OXOBUTYL}CARBAMOYL)-2,2-DIMETHYLPROPYL]CARBAMATE                
+FORMUL   3  2Z4    C46 H59 N5 O9                                                
+FORMUL   4  HOH   *69(H2 O)                                                     
+END                                                                             
+HEADER    GLYCOGEN PHOSPHORYLASE                  25-MAR-98   1A8I              
+SOURCE   2 ORGANISM_SCIENTIFIC: ORYCTOLAGUS CUNICULUS;                          
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    1.78 ANGSTROMS.                                       
+HETNAM     LLP 2-LYSINE(3-HYDROXY-2-METHYL-5-PHOSPHONOOXYMETHYL-                
+HETNAM   2 LLP  PYRIDIN-4-YLMETHANE)                                            
+HETNAM     GLS BETA-D-GLUCOPYRANOSE SPIROHYDANTOIN                              
+FORMUL   1  LLP    C14 H24 N3 O7 P                                              
+FORMUL   2  GLS    C8 H12 N2 O7                                                 
+FORMUL   3  HOH   *795(H2 O)                                                    
+END                                                                             
+HEADER    IMMUNOGLOBULIN                          26-MAR-98   1A8J              
+SOURCE   2 ORGANISM_SCIENTIFIC: HOMO SAPIENS;                                   
+EXPDTA    X-RAY DIFFRACTION                                                     
+REMARK   2 RESOLUTION.    2.70 ANGSTROMS.                                       
+HETNAM     PCA PYROGLUTAMIC ACID                                                
+HETNAM     PME N-L-ALPHA-ASPARTYL L-PHENYLALANINE 1-METHYL ESTER                
+FORMUL   1  PCA    2(C5 H7 N O3)                                                
+FORMUL   3  PME    2(C14 H18 N2 O5)                                             
+END                                                                             
+HEADER    HYDROLASE/HYDROLASE INHIBITOR           27-MAR-98   1A8K              
+SOURCE   2 ORGANISM_SCIENTIFIC: HUMAN IMMUNODEFICIENCY VIRUS 1;                 
+EXPDTA    X-RAY DIFFRACTION                                                     
+REVDAT   2 2                   3       JRNL   KEYWDS HEADER                     
+REMARK   2 RESOLUTION.    2.00 ANGSTROMS.                                       
+HETNAM     0Q4 N-[(2R)-2-({N~5~-[AMINO(IMINIO)METHYL]-L-ORNITHYL-L-             
+HETNAM   2 0Q4  VALYL}AMINO)-4-METHYLPENTYL]-L-PHENYLALANYL-L-ALPHA-            
+HETNAM   3 0Q4  GLUTAMYL-L-ALANYL-L-NORLEUCINAMIDE                              
+FORMUL   5  0Q4    2(C40 H70 N11 O8 1+)                                         
+FORMUL   7  HOH   *159(H2 O)                                                    
+END                                                                             
