@@ -8,7 +8,7 @@ FORMUL   3   MG    2(MG 2+)
 FORMUL   5  IPM    2(C7 H12 O5)                                                 
 FORMUL   7  HOH   *504(H2 O)                                                    
 END                                                                             
-﻿HEADER    TRANSFERASE                             30-NOV-97   1A0G              
+HEADER    TRANSFERASE                             30-NOV-97   1A0G
 SOURCE   2 ORGANISM_SCIENTIFIC: BACILLUS SP.;                                   
 EXPDTA    X-RAY DIFFRACTION                                                     
 REMARK   2 RESOLUTION.    2.00 ANGSTROMS.                                       
