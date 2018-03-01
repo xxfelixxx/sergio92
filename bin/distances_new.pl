@@ -1,133 +1,44 @@
 #!/usr/bin/env perl
 
-# Ok while going trough the script I had some misunderstandings so if we can go trough it.
-# Instead of using space to split the columns I have changed it to substrings because some
-# columns are merged..i have also included leading trim in case line starts with whitespace
-
-# you know, you can split on more than one character.... split /\s+/ to split on space_S_
-# foo    bar     baz => ( 'foo', 'bar', 'baz')
-# documentation: perldoc -f split
-# yes I know that I can split on space and one a character as well..but here I think we had a
-# problem with that becasue in some pdb files columns are merged. So I think substring is a good
-# choice.
-
-# Apart from that..i want to go trough final loops while calculating distances..i wanted previousl
-# to change it and I didn't make it because I made some mess :P
-# also while running a script it appears becasue we use move_file subroutine..it appears that
-# not all pdb files stay in their original folder.
-# lets go step by step, ok? ok
-
 #------ perl pragmas
 use strict;
 use warnings;
 
 #------ perl Modules
 use File::Glob;
-use Getopt::Long; # what do we use this one for?
-
-# Ok here in this script main point are subroutines or functions taht we are using and there are
-# few of them..
-
-# Why do we here use constants, been search for meaning of it..for example..why we didnt use mkdir
-# and we used this and bellow we made directoreis?
-#
-# So...why do this? you don't have to, but it is a good practice to do so
-# It doesnt makes any changes, but this way is more accurate?
-# No...in some ways it is easier to read
-# It saves you from a certain class of bugs
-# for example, in you don't 'use strict'
-# Then $foo = 2;....later $bar = $fo0; # compiles just find...$foo = 2, but $fo0 = undef
-# now we have a subtle bug
-# But if we mistype a constant, we get a compile time error
-# it makes code easier to read, in some cases, and it lets you know that the thing is
-# never going to change
-# I see, ok
-
-# Can we first start with commenting subroutines and then move to the calculations?
-# ok
+use Getopt::Long;
 
 #------ Constants
-#what DEBUG => 0 means?
-use constant DEBUG   => 0; # Set to 1 for lots of detail
+use constant DEBUG   => 1; # 0 = off, 1 = on
 use constant DIR_COV => 'covalently_bound';
 use constant DIR_2_4 => '2_4';
-use constant DIR_4_5 => '4_5';
-use constant DIR_5_6 => '5_6';
 use constant PERCENT => 70;
-
-
-# Problem1: in some examples pdb is beeing moved to covalently_bound and they shoud be moved only
-#           to 2-4 folder if they are moved.
-
-# Problem 2: calculating distances in some not correct in some examples like 1A2C.pdb txt files
-#            should be moved to covalently_bound, but they are not.
-
-# LIGAND_ROW, maybe to copy files insted of moving them
-
-
 #----------------
 
-# Command line options --percent=20 --verbose
-# It would be usefule to have a usage() section (i.e. --help)
-# It is considered good practice to have scripts not just run, but to take options...
-# I see..what we were relating verbose to?  # search for $verbose and find out. I forgot its not
-# Ctrl-s ( you can erase as well in the minibuffer (the bottom line below the purple line))
-# Ctrl-g to get you out of trouble. Yeah. Soo, verbose we used just to turn on debugging lines. Ok
 my $percent = PERCENT;
 my $verbose;
 GetOptions("percent=i" => \$percent,
             "verbose"  => \$verbose)
-    or die("Error in command line arguments\n");
+    or die("usage: $0 [ --percent=70 ] [ --verbose ]\n");
+
 
 debug("START\n");
+create_subdirs();
 
-# Create subdirectories
-for my $dir ( DIR_COV, DIR_2_4, DIR_4_5, DIR_5_6 ) {
-    next if -d $dir;
-    print "Creating dir: $dir\n";
-    mkdir $dir or die "Unable to create '$dir' : $!";
-}
+my $text_data = get_all_text_data();
+my $atoms = parse_all_pdbs();
 
-# Collect all of the Text file data into memory
-# What does it mean into memory? Into %text_data. Ok
-my %text_data;
-# Here we are refering to all txt files
-for my $txt_file ( glob '*txt' ) {
-    # Here we are refering only to coordinates of text files, right? # maybe...see get_text_data()
-    # End of get_text_data are ligand coordinates so I guess we do...yup
-    # You may wish to _rename_ the subroutine to something more descriptive....
-    $text_data{ $txt_file } = get_text_data($txt_file);
-}
-die "No text files found!" unless keys %text_data;
-
-# For each PDB file, store the ATOMs
-my %atoms;
-for my $pdb_file ( glob '*pdb' ) {
-    $atoms{$pdb_file} = parse_pdb($pdb_file);
-}
-die "No PDB files found!" unless keys %atoms;
-
-for my $txt_file ( sort keys %text_data ) {
-    for my $pdb ( sort keys %atoms ) {
-        # After every pdb, but remember, you are repeating pdbs over and over,
-        # for each $txt_file....you could skip this step if the pdb has already
-        # been moved by checking if the pdb file is still in its original location...I see
-        # lets keep it like this.
+for my $txt_file ( sort keys %$text_data ) {
+    for my $pdb ( sort keys %$atoms ) {
         calculate_ligand_distances($txt_file, $pdb);
     }
 }
-
-#process_results( %atoms );
 
 debug("FINISH\n");
 exit 0;
 
 #--- Subroutines (functions)
-# The idea is to break up your program into smaller manageable (testable hopefully)
-# chunks that you can more easily reason about...
 
-
-# you don't need the prototype ($), unless you know what you are doing...and you don't
 sub ltrim
 {
 	my $string = shift;
@@ -196,144 +107,67 @@ sub ltrim
 
 # I know that...I am not sure what you want to change from the current behavior.
 
+
+
+# Ok, here script is working great just to make some small changes in loops and to remove
+# som stuff
+# First: we dont need calculations and results and files to be moved to folders 2_$ an 4_5
+# so if we can skip these calculations and moving files so to make script more faster
+#
+# skip everything?  oryes .just .so we just need calculations..results..moving files for
+# fodlers cov_bound and 2_4
+# ok...that's easy...that should do it. YeaH
+# last thing for now is to modify loop..
+
 sub calculate_ligand_distances {
     my ($txt_file,$pdb_file) = @_;
-    my ($count_2_4,$count_4_5,$count_5_6) = (0,0,0);
+
+    debug("Calculating distances between $txt_file and $pdb_file");
+    my $count_2_4 = 0;
     # counting the number of ligand rows for eaxh txt file
-    my $ligand_rows = scalar @{ $text_data{$txt_file }};
+    my $ligand_rows = scalar @{ $text_data->{$txt_file }};
     # here LIGAND_ROW corresponds to each ligand row..each hetatm line? y
     # Ok here we are starting with first line of first txt file withing a folder
     # and calculating distances between this line and all ATOM lines from pdb file
-  LIGAND_ROW:
-    for my $ligand ( @{ $text_data{$txt_file} } ) {
+
+    # So here..important in terms of my understanding
+    # we look and first row of ligand file and then calc dist between all prot atoms
+    # we first check 0_2 or cov_bound condition in the result..if yes..we move text file
+    # and we continue to calc distances for second row and to search for the same file
+    # ranges between 2_4, right?
+
+    for my $ligand ( @{ $text_data->{$txt_file} } ) {
         my @distances;
 
-        for my $atom_coord ( @{ $atoms{$pdb_file} } ) {
+        # Calculate all distances between one ligand row and all protein? rows
+        for my $atom_coord ( @{ $atoms->{$pdb_file} } ) {
             my $ligand_coord = $ligand->{ligand_coord};
             my $dist = distance( $atom_coord, $ligand_coord );
             push @distances, $dist;
         }
 
-        # why do we use here find_between and not find_any ?
-        # we just want to check if the result of each calc is within this range
-        # we can change it to find_any, to make it more consistent
-        # should here be any_between instaed of find_any? yes
-
-
-        # here we want onlt txt file to be moved not pdb file as well, so if I remove $pdb_fil
-        # it gives me some errors in subroutine move_file...what error? something related
-        # to the destination..and implies it to lines of move_file subroutine..unclear
-        # ok, lets just delete $pdb_file so lets see what we will get after running it, ok?y
-
-        # that does not make any sense, what file are you moving? here nither..have to put
-        # txt file. thanks :) ok
-        # So here..in the first loop will it go trough all calcuations of one txt-pdb file
-        # until it finds 0-2 and then if not it tries to find other ranges or all at once?
-        # after each calc ligand line vs all pdb lines, it sees if any dirs are appropriate..
-        # Ok I see, and here it only moves txt files 0-2 if they are within this range and
-        # other results it just memorize somehow?
-        # it counts
-        # So here we are moving to lig_atom2 - all protein atoms? basically its like
-        # a goto...so go to the LIGAND_ROW label, i.e. skip the rest of the counting
-        # for the other folders.
-        # So it will seach for all LIGAND_ROWs? and we have to check for each ligand row range
-        # 0-2 as well..because this range can be result at calculations btw lig_atom5-allprot
-        # atoms..yes..even though we already moved the file...(we have the data in memory) ok
-
-        # clearer? yes. thank u felix :)
         my $n_less_than_2 = any_between ( 0, 2, \@distances );
-        if ( $n_less_than_2 ) {
-            move_file(  $txt_file,
-                        $n_less_than_2 == 1 ? DIR_COV : DIR_2_4 );
-            next LIGAND_ROW;
+        if ( $n_less_than_2 == 1 ) {
+            move_file( $txt_file, DIR_COV );
+            return; # Stop processing this file
         }
-        # here we are counting the result to be btw different ranges , counting # lines in txt
-        # file that match these criteria, we use these counts to figure out the cutoffs...
-        # percents..yes I see..are we starting these countings and calculations from the
-        # lig_Atom1 - all protein atoms? yes. I see. I think all these parts should be good
-        # just one think what kept me condusing..is moving of this pdb file..
-        # it condused me moving it to 0-2 but now since we changed it it shouldnt be a problem..
+
         if ( any_between( 2, 4, \@distances ) ) {
             $count_2_4++;
         }
-
-        if ( any_between( 4, 5, \@distances ) ) {
-            $count_4_5++;
-        }
-
-        if ( any_between( 5, 6, \@distances ) ) {
-            $count_5_6++;
-        }
     }
 
+    # After all rows processed
     my $cutoff = $percent / 100;
-    my ($p2_4, $p4_5, $p5_6) = map {
-        ($_ / $ligand_rows) 
-    } ( $count_2_4, $count_4_5, $count_5_6 );
+    my ($p2_4) = $count_2_4 / $ligand_rows;
 
     print "Percent for 2_4 is " . int( 100 * $p2_4 ) . "\n";
-    print "Percent for 4_5 is " . int( 100 * $p4_5 ) . "\n";
-    print "Percent for 5_6 is " . int( 100 * $p5_6 ) . "\n";
     
-    my $dest = '';
     if ($p2_4 > $cutoff) {
-        $dest = DIR_2_4;
-    } elsif ($p4_5) {
-        $dest = DIR_4_5;
-    } elsif ($p5_6) {
-        $dest = DIR_5_6;
+        move_file( $txt_file, DIR_2_4 );
     } else {
-        # wait..maybe we shouldnt go with 5-6 and 4-5 because u see 
-        # From the previous example all were above 70 percent so 
-        # all of them cant be moved so maybe just to comment on it 
-        # and one more simple thing..is if there are more txt files (mostlythe case)
-        # and it works first with one of them..and it moved pdb file as well..then the 
-        # calc within other txt files and pdb (moved) file wont be possible..so
-        # maybe just to copy it and then I will do sort -u in the 2-4 direcotry if there
-        # are more identical pdb files..what do u say?
-        # you have everything in memory, you can move things, it won't matter.
-        # I think I need to stop...perhaps you could continue.
-        # we are almost finished..can we try to run this on our examples?
-        # I rhink we ddid 99 percent?
-        # here after all these comments this else loop stays empty and it doesnt seems to be a
-        # problem solved. :D u make me laugh now :D
-        debug("Hit the else block, wtf?"); # do we need this loop although its empty?
-        # it is not a loop, it is a block, specifically an else-block, yes you need it
-        # not because it won't run, but because you will introduce bugs if you don't check
-        # your else-blocks. Yeah I see but before there were no debugs we put it now
-        # so apart from that is there something else important? ? what are you asking?
-        # we put debug line today so while running it last time this block was empty
-        # it didn't give any errors but it was empty so we could have deleted it, but now we
-        # need it, right?  it is coding style, there are lots of things which are not
-        # strictly necessary, but you do because they help you later...you haven't been burned
-        # by a missing else block before, so you don't know to do this...of course, thats why I
-        # ask ..know that there must be something. :)
-        # specifically in this code, it means that we didn't match any folders....the consequence
-        # of which will be that the files don't get moved.....so when that happens, and you
-        # scratch your head....and you turn on --verbose...you will see this wtf line...
-        # and know what is actually going on....if it wasn't there, you wouldn't get any feedback
-        # at all, and would have to manually try to debug it (maybe its not a bug...that's how
-        # the data is...but it _feels_ like a bug because nothing happened...) I see.
-        # thanks felix :) this style of programming is called 'defensive'. Pretty descriptive name
-        # ok so I guess thats it..can we try to run it on 1A2C.pdb to see if it gives range 0-2?
-
-        # Sure...
+        debug("Not good enough to move to 2_4...skipping");
     }
-    # here we are moving pdb file to all three directories? no, just the winning one.
-    # which one is the winning one? whichever branch of the if/elsif/... above it hits.
-    # we should onlt move it to 2-4 folder if percentage is matches..together with txt files
-    # because if i have txt files in 2-4 folder without pdb then I have tochange it
-    # and one more..for txt files if it picks up 4-5 or 5-6 to bw winning (first matched?) then it
-    # move then to these folders..although relating to percetange it can also be moved to 2-4 and
-    # it is not because its not the winning? yes, they are picked in order, if 2-4 then 2-4 else
-    # if 4-5 then 4-5, else then ...etc you can change the logic, but that is the logic you wanted
-    # so it first checks 2-4 fodler among these three? and then if notting to be moved there..
-    # it checks 4-5 and 5-6 folders? yes, in that order.....
-    if ($dest) {
-        move_file( $pdb_file, $dest );
-        move_file( $txt_file, $dest );
-    }
-
 }
 # we added this subroutine last time..and now we have find_btw and any_btw..we used any_btw for
 # loop where we calculated distances within 0-2 range and we used find_btw for all other ranges..
@@ -449,15 +283,13 @@ sub parse_row {
     # has extra/missing space....the problem really is...it will work, i.e. not complain
     # even if the data are garbage...yeah I see..i will have to check it while running it on 60k.
 
-	    my $x_space = substr $row, 30, 8;
-	    my $x = ltrim ($x_space);
-	    print "$x\n";
-   	    my $y_space = substr $row, 38, 8;
-	    my $y = ltrim ($y_space);
-	    print "$y\n";
-   	    my $z_space = substr $row, 46, 8;
-	    my $z = ltrim ($z_space);
-	    print "$z\n";
+    my $x_space = substr $row, 30, 8;
+    my $x = ltrim ($x_space);
+    my $y_space = substr $row, 38, 8;
+    my $y = ltrim ($y_space);
+    my $z_space = substr $row, 46, 8;
+    my $z = ltrim ($z_space);
+    debug("(x,y,z) = ($x,$y,$z)\n");
     for ($x, $y, $z) {
         # You can continue lines that are long onto the next line
         # so the
@@ -501,13 +333,13 @@ sub move_file {
     print "Moving $file to $dest_dir\n";
     if ( -f "$dest_dir/$file" ) {
         print "--> Already moved to $dest_dir\n";
-        return;
+        return; # Should never happen
     }
 
-    for my $dir ( DIR_COV, DIR_2_4, DIR_4_5, DIR_5_6 ) {
+    for my $dir ( DIR_COV, DIR_2_4 ) {
         if ( -f "$dir/$file" ) {
             print "--> Sorry, you already moved it to $dir\n";
-            return;
+            return; # Should never happen
         }
     }
 
@@ -571,4 +403,30 @@ sub distance {
 # To search backwards....Ctrl-r
 sub debug {
     print join(' ', 'DEBUG: ', @_) if DEBUG or $verbose;
+}
+
+sub create_subdirs {
+    for my $dir ( DIR_COV, DIR_2_4 ) {
+        next if -d $dir;
+        print "Creating dir: $dir\n";
+        mkdir $dir or die "Unable to create '$dir' : $!";
+    }
+}
+
+sub get_all_text_data {
+    my $text_data = {};
+    for my $txt_file ( glob '*txt' ) {
+        $text_data->{ $txt_file } = get_text_data($txt_file);
+    }
+    die "No text files found!" unless keys %$text_data;
+    return $text_data;
+}
+
+sub parse_all_pdbs {
+    my $atoms = {};
+    for my $pdb_file ( glob '*pdb' ) {
+        $atoms->{$pdb_file} = parse_pdb($pdb_file);
+    }
+    die "No PDB files found!" unless keys %$atoms;
+    return $atoms;
 }
