@@ -136,24 +136,50 @@ sub calculate_ligand_distances {
     # and we continue to calc distances for second row and to search for the same file
     # ranges between 2_4, right?
 
+
+
+    # Ok so everything is fine in terms of overall logic but just some changes have to be made.
+    # we have a script that does this:
+
+    # Calc dist between 1 lig atom to all protein atoms > from the result of this calculation calculate the perc
+    # of those that are in tange 2-4. if the perc is 70% or more > move to next file.
+
+    # We want to change it to this:
+    # Calc dist between 1 lig atom and all protein atoms at the time > if just one result appears to be in range
+    # of 2-4 break out of the loop for this 1 lig_all prot atoms calculation and move to the next ligand atom >
+    # mark somehow that this ligand atom had met result in this range.move to another atom
+    # > lig atom 2 - to all prot atoms > calculate dist > if 1 result is in range 2-4..break out of the loop> move
+    # to another atom...but memorize that lig atom 2 gave result within this range.
+    # lig atom 3 .......
+    # if there are 10 lig atoms..if 7 of them (70%) gave result within the range of 2-4 then move this file to
+    # folder 2_4 and ....
+
+    # I think, I understand
+    # So we have $count_2_4++ as long as there are any ...., but ok, can short circuit.
+    # That should do it. Yes, lets try..so at the end it count how many ligand atoms had the result 2-4 and checks
+    # perc if 70 % of ligand atoms had this percentage and then it moves the file..i guess this will be very fast
+    # because in 90 percent of the cases lig atoms will have this range..so it will break everytime and make
+    # script much faster..
+
+  LIGAND:
     for my $ligand ( @{ $text_data->{$txt_file} } ) {
         my @distances;
 
         # Calculate all distances between one ligand row and all protein? rows
+      ATOM:
         for my $atom_coord ( @{ $atoms->{$pdb_file} } ) {
             my $ligand_coord = $ligand->{ligand_coord};
             my $dist = distance( $atom_coord, $ligand_coord );
             push @distances, $dist;
-        }
+            if ( 0 <= $dist && $dist < 2 ) {
+                move_file( $txt_file, DIR_COV );
+                return; # Stop processing this file
+            }
 
-        my $n_less_than_2 = any_between ( 0, 2, \@distances );
-        if ( $n_less_than_2 == 1 ) {
-            move_file( $txt_file, DIR_COV );
-            return; # Stop processing this file
-        }
-
-        if ( any_between( 2, 4, \@distances ) ) {
-            $count_2_4++;
+            if ( 2 <= $dist && $dist < 4 ) {
+                $count_2_4++;
+                last ATOM;
+            }
         }
     }
 
