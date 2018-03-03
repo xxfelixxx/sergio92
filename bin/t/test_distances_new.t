@@ -3,6 +3,7 @@
 use warnings;
 use strict;
 
+use Time::HiRes qw( gettimeofday tv_interval );
 use Test::More;
 use FindBin qw($Bin);
 use File::Path qw( make_path remove_tree );
@@ -70,9 +71,11 @@ my $percent = 70;
 my $distance_cmd = "cd $test_path && $^X $distances_script --percent=$percent";
 note("Executing distances.pl with percent = $percent");
 note("[ $distance_cmd ]");
+my $t0 = [gettimeofday];
 (system($distance_cmd) == 0)
     or BAIL_OUT("Unable to run '$distance_cmd' : $!");
-pass("Script 2 ran ok");
+my $elapsed = tv_interval ( $t0, [gettimeofday]);
+pass("Script 2 ran ok - took $elapsed seconds");
 
 my %expected_files = (
     'covalently_bound' => [ '34H#J#1.txt', 'PRJ#J#3.txt'],

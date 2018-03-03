@@ -8,8 +8,16 @@ use warnings;
 use File::Glob;
 use Getopt::Long;
 
+# TODO: get this to work
+# {
+#     no strict 'subs';
+#     use Inline (C => Config =>
+#                 directory => './_distances_new',
+#         );
+# }
+
 #------ Constants
-use constant DEBUG   => 1; # 0 = off, 1 = on
+use constant DEBUG   => 0; # 0 = off, 1 = on
 use constant DIR_COV => 'covalently_bound';
 use constant DIR_2_4 => '2_4';
 use constant PERCENT => 70;
@@ -122,7 +130,7 @@ sub ltrim
 sub calculate_ligand_distances {
     my ($txt_file,$pdb_file) = @_;
 
-    debug("Calculating distances between $txt_file and $pdb_file");
+    debug("Calculating distances between $txt_file and $pdb_file\n");
     my $count_2_4 = 0;
     # counting the number of ligand rows for eaxh txt file
     my $ligand_rows = scalar @{ $text_data->{$txt_file }};
@@ -136,58 +144,82 @@ sub calculate_ligand_distances {
     # and we continue to calc distances for second row and to search for the same file
     # ranges between 2_4, right?
 
-
-
-    # Ok so everything is fine in terms of overall logic but just some changes have to be made.
-    # we have a script that does this:
-
-    # Calc dist between 1 lig atom to all protein atoms > from the result of this calculation calculate the perc
-    # of those that are in tange 2-4. if the perc is 70% or more > move to next file.
-
-    # We want to change it to this:
-    # Calc dist between 1 lig atom and all protein atoms at the time > if just one result appears to be in range
-    # of 2-4 break out of the loop for this 1 lig_all prot atoms calculation and move to the next ligand atom >
-    # mark somehow that this ligand atom had met result in this range.move to another atom
-    # > lig atom 2 - to all prot atoms > calculate dist > if 1 result is in range 2-4..break out of the loop> move
-    # to another atom...but memorize that lig atom 2 gave result within this range.
-    # lig atom 3 .......
-    # if there are 10 lig atoms..if 7 of them (70%) gave result within the range of 2-4 then move this file to
-    # folder 2_4 and ....
-
-    # I think, I understand
-    # So we have $count_2_4++ as long as there are any ...., but ok, can short circuit.
-    # That should do it. Yes, lets try..so at the end it count how many ligand atoms had the result 2-4 and checks
-    # perc if 70 % of ligand atoms had this percentage and then it moves the file..i guess this will be very fast
-    # because in 90 percent of the cases lig atoms will have this range..so it will break everytime and make
-    # script much faster..
-
-  LIGAND:
+    my $ligand_row = 1;
     for my $ligand ( @{ $text_data->{$txt_file} } ) {
+
+        my $ligand_coord = $ligand->{ligand_coord};
+        debug("Ligand $txt_file line $ligand_row : ( " . join(', ', @$ligand_coord) . " )\n");
         my @distances;
+        my $min_dist = 999;
 
         # Calculate all distances between one ligand row and all protein? rows
-      ATOM:
         for my $atom_coord ( @{ $atoms->{$pdb_file} } ) {
-            my $ligand_coord = $ligand->{ligand_coord};
-            my $dist = distance( $atom_coord, $ligand_coord );
-            push @distances, $dist;
-            if ( 0 <= $dist && $dist < 2 ) {
-                move_file( $txt_file, DIR_COV );
-                return; # Stop processing this file
-            }
+            # here is the tight inner loop, if anything is slow, it is here:
+#            my $dist = distance( $atom_coord, $ligand_coord );
+#            my $dist = fast_distance( $atom_coord, $ligand_coord );
 
-            if ( 2 <= $dist && $dist < 4 ) {
-                $count_2_4++;
-                last ATOM;
+            # I guess by including this and breaking out of the loop if 2-4 range
+            # we will make out script much faster.
+            # eliminate the function call
+            # sorry, lost my connection. its fine :)
+
+            my $dist = sqrt(
+                  ( $atom_coord->[0] - $ligand_coord->[0] ) ** 2
+                + ( $atom_coord->[1] - $ligand_coord->[1] ) ** 2
+                + ( $atom_coord->[2] - $ligand_coord->[2] ) ** 2 );
+
+# TODO: get this to work
+#            my $dist = c_distance( @$atom_coord, @$ligand_coord );
+
+            push @distances, $dist;
+            if ( $dist < $min_dist ) {
+                debug(sprintf("MIN dist is now %2.1f ( %1.3f, %1.3f, %1.3f )\n", $dist, @$atom_coord));
+                $min_dist = $dist;
             }
         }
+
+        my $n_less_than_2 = any_between ( 0, 2, \@distances );
+        if ( $n_less_than_2 == 1 ) {
+            debug("COVALENT\n");
+            move_file( $txt_file, DIR_COV );
+            return; # Stop processing this file
+        }
+        # important here..we are not breaking out of the loop but we are counting how many ligand rows
+        # showed at least once range 2-4..if there are 10 ligand rows for one txt.. and 7 or 8 are showing
+        # this range we are counting them and moving them into the 2-4 folder..? because when we previously
+        # at the begining of today changed previous version in terms of percentage..we used last; and here we
+        # are taking another approach, right, but same logic?  because I changed the logic to short-circuit..
+        # but that is not what you need to do. what do u mean what I need to do? I thought we could do the
+        # the 0-2 check after each distance calc, inside the $atom_coord loop and bail out, but you actually
+        # need to go through all of them first, then make a decision...yeah..but maybe not all of them
+        # if they meet both conditions..or at least 0-2 conditions then we are breakiong out of the loop
+        # anyway because we dont use this txt fiile anymore
+        # there are some other optimizations you could do, but they complicate things... is it still too slow?
+        # well..previos version where we excluded 4-5 and 5-6 ranges was faster..but it was slow because we
+        # calculated percentage of each lig1-all prot calculations and checked 2-4..so for each atom we were calc
+        # percentage of each result..so we did it wrong way and it took huge amount of time..thats how I recognize
+        # that previous script doesnt compile logic I was thinking of..because in the output in terminal it showed:
+        # Working on xxx txt file and xxx pdb file:
+        # perc of dist is 45 (atom 1)
+        # perc of dist is 31 (atom 2)
+        # perc of dist is 67.. (atom 3)
+        # so it had been calculating percentage for each atom calculations...yeah, but not anymore.
+        # we could profile it, to see if there is anything to be made faster...no need I guess this would make it
+        # much faster anyway because whenever it meets 2-4 range it will break out and memorize it and chance
+        # to meet this range within first atom calculation is 99 %..so ..it will break out at first or second atom
+        # everytime..of course if it does not fulfil covalently_bond 0-2 range condition..
+        if ( any_between( 2, 4, \@distances ) ) {
+            $count_2_4++;
+            debug("--> Count = $count_2_4\n");
+        }
+        $ligand_row++;
     }
 
     # After all rows processed
     my $cutoff = $percent / 100;
     my ($p2_4) = $count_2_4 / $ligand_rows;
 
-    print "Percent for 2_4 is " . int( 100 * $p2_4 ) . "\n";
+    print "Percent for 2_4 is " . int( 100 * $p2_4 ) . " [ $count_2_4 / $ligand_rows ]\n";
     
     if ($p2_4 > $cutoff) {
         move_file( $txt_file, DIR_2_4 );
@@ -388,7 +420,18 @@ sub move_file {
 # Good question...
 # Input: $v1 : [ x0, y0, z0 ]
 #        $v2 : [ x1, y1, z1 ]
+
 # Output: Sqrt of the squared differences, aka Distance
+
+# what we did here?  lets see if it faster, then I will explain ok
+sub fast_distance {
+    return sqrt(
+          ( $_[0]->[0] - $_[1]->[0] ) ** 2
+        + ( $_[0]->[1] - $_[1]->[1] ) ** 2
+        + ( $_[0]->[2] - $_[1]->[2] ) ** 2 );
+}
+
+
 sub distance {
     my ($v1, $v2) = @_;
 
@@ -455,4 +498,14 @@ sub parse_all_pdbs {
     }
     die "No PDB files found!" unless keys %$atoms;
     return $atoms;
+}
+
+
+__END__
+__C__
+#include <math.h>
+
+/* Calculate distance between vectors V and W
+double c_distance( double vx, double vy, double vz, double wx, double wy, double wz ) {
+    return sqrt( pow( vx - wx, 2 ) + pow( vy - wy, 2 ) + pow( vz - wz, 2 ) );
 }
